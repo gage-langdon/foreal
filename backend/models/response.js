@@ -9,10 +9,11 @@ const ResponseSchema = new Schema({
 const Response = mongoose.model('Response', ResponseSchema);
 
 module.exports = module.exports = {
-	create: ({ text, question }) => {
+	create: ({ text, questionID }) => {
+		if (!text || !questionID) throw 'Missing data';
 		return Response.create({
 			text,
-			question,
+			question: questionID,
 			dateCreated: new Date()
 		});
 	},

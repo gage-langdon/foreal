@@ -13,6 +13,7 @@ mongoose.connect(process.env.mongo, {
 // routes
 app.use('/', require('./routes/common'));
 app.use('/user', require('./routes/user'));
+app.use('/anon', require('./routes/anon'));
 
 app.listen('8080', () => {
 	console.log('listening on 8080');
