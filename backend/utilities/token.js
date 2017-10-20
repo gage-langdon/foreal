@@ -13,7 +13,7 @@ module.exports = {
 		return new Promise((resolve, reject) => {
 			jwt.verify(token, process.env.jwtSecretKey, (err, decodedToken) => {
 				if (err || !decodedToken) reject('Invalid token');
-				else resolve(decodedToken);
+				else resolve(decodedToken.tokenObj);
 			});
 		});
 	}
