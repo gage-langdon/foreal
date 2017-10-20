@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const ResponseSchema = new Schema({
 	question: { type: Schema.ObjectId, ref: 'Question' },
 	text: String,
-	dateAdded: Date
+	dateCreated: Date
 });
 const Response = mongoose.model('Response', ResponseSchema);
 
