@@ -1,4 +1,4 @@
-const tokenUtil = require('./user-token');
+const tokenUtil = require('./token');
 
 module.exports = {
 	userRequired: async (req, res, next) => {
