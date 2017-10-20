@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ResponseSchema = new Schema({
-	question: ObjectId,
+	question: { type: Schema.ObjectId, ref: 'Question' },
 	text: String,
 	dateAdded: Date
 });
@@ -18,5 +18,8 @@ module.exports = module.exports = {
 	},
 	getById: id => {
 		return Response.findById(id).populate('question');
+	},
+	getByQuestion: questionID => {
+		return Response.find({ question: questionID });
 	}
 };
