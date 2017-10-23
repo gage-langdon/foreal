@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
 
+// Redux
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actions from '../../utilities/redux/actions/user';
+
 // components
 import NewQuestion from '../../shared/new-question/new-question.jsx';
 
-export default class Home extends Component {
+class Home extends Component {
 	constructor() {
 		super();
 
@@ -46,3 +51,12 @@ export default class Home extends Component {
 		);
 	}
 }
+function mapStateToProps({ user }) {
+	return {
+		...user
+	};
+}
+function mapDispatchToProps(dispatch) {
+	return bindActionCreators(actions, dispatch);
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../utilities/redux/actions/user';
 
+// Components
+import NewQuestion from '../../shared/new-question/new-question.jsx';
+
 class SignUp extends Component {
 	constructor() {
 		super();
@@ -20,6 +23,16 @@ class SignUp extends Component {
 			password: ''
 		};
 	}
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.isLoggedIn) {
+			this.props.history.push({
+				pathname: '/',
+				state: {
+					freshMeat: true
+				}
+			});
+		}
+	}
 	oninput(field, value) {
 		this.setState({ [field]: value });
 	}
@@ -33,7 +46,6 @@ class SignUp extends Component {
 		return firstName && lastName && email && password;
 	}
 	render() {
-		console.log(this.props);
 		return (
 			<div className="container-fluid" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
 				<div className="row align-items-center justify-content-center" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
@@ -104,10 +116,8 @@ class SignUp extends Component {
 										</div>
 									</div>
 									<div className="row justify-content-center pt-5">
-										<div className="col-4 text-center">
-											<Link to="/">
-												<button className="btn btn-secondary">Get Answers</button>
-											</Link>
+										<div className="col-12 text-center">
+											<NewQuestion />
 										</div>
 									</div>
 								</div>
