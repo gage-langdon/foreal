@@ -10,6 +10,19 @@ mongoose.connect(process.env.mongo, {
 	useMongoClient: true
 });
 
+const WHITELIST = ['http://localhost:3000'];
+const allowCrossDomain = (req, res, next) => {
+	let origin = req.headers.origin;
+	if (WHITELIST.indexOf(origin) > -1) {
+		res.setHeader('Access-Control-Allow-Origin', origin);
+	}
+	res.header('Access-Control-Allow-Credentials', 'true');
+	res.header('Access-Control-Allow-Methods', 'GET,POST');
+	res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-XSRF-TOKEN, Content-Length, X-Requested-With');
+	next();
+};
+app.use(allowCrossDomain);
+
 // routes
 app.use('/', require('./routes/common'));
 app.use('/user', require('./routes/user'));

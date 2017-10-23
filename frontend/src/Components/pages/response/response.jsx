@@ -5,7 +5,7 @@ export default class Response extends Component {
 		return (
 			<div className="container-fluid">
 				<div className="row">
-					<div className="col">Response</div>
+					<div className="col" />
 				</div>
 			</div>
 		);
