@@ -9,5 +9,14 @@ export default {
 	},
 	createQuestion: ({ text }, token) => {
 		return axios.post('/user/questions/create', { text }, token);
+	},
+	getQuestions: token => {
+		return axios.get('/user/questions', null, token);
+	},
+	getQuestionLoggedIn: (id, token) => {
+		return axios.get(`/user/questions/${id}`, null, token);
+	},
+	getQuestion: id => {
+		return axios.get(`/questions/${id}`);
 	}
 };

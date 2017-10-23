@@ -16,6 +16,7 @@ router.get('/questions/:id', async (req, res) => {
 	try {
 		let question = await Question.getById(req.params.id);
 		if (!question) throw 'Invalid question id';
+		question.user = undefined;
 		let responses = await Response.getByQuestion(req.params.id);
 		res.send({ question, responses });
 	} catch (err) {
@@ -25,7 +26,7 @@ router.get('/questions/:id', async (req, res) => {
 router.post('/questions/create', async (req, res) => {
 	try {
 		let { text } = req.body;
-		Question.create({ text, userID: req.userData._id });
+		await Question.create({ text, userID: req.userData._id });
 		let questions = await Question.getByUser(req.userData._id);
 		res.send({ questions });
 	} catch (err) {

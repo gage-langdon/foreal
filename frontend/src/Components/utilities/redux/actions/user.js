@@ -39,7 +39,7 @@ export function CreateQuestion(text) {
 		if (state.isLoggedIn) {
 			let { token } = state.user;
 			let { questions } = await API.createQuestion({ text }, token);
-			dispatch({ type: Types.SET_NEW_QUESTION, payload: questions });
+			dispatch({ type: Types.UPDATE_QUESTIONS, payload: questions });
 
 			// return newest question
 			if (questions.length < 1) return null;
@@ -49,6 +49,18 @@ export function CreateQuestion(text) {
 			return sortedQuestions[0];
 		} else {
 			console.log('error on create question: not logged in');
+		}
+	};
+}
+export function GetQuestion(id) {
+	return async (dispatch, getState) => {
+		let state = getState().user;
+		if (state.user && state.user.token) {
+			let { question } = await API.getQuestionLoggedIn(id, state.user.token);
+			return question;
+		} else {
+			let { question } = await API.getQuestion(id);
+			return question;
 		}
 	};
 }

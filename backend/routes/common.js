@@ -2,6 +2,8 @@ const router = require('express').Router();
 const User = require('../models/user');
 const tokenUtil = require('../utilities/token');
 
+const Question = require('../models/question');
+
 router.post('/login', async (req, res) => {
 	try {
 		let { email, password } = req.body;
@@ -25,6 +27,15 @@ router.post('/sign-up', async (req, res) => {
 		res.send({ user, token });
 	} catch (err) {
 		res.status(400).send({ err });
+	}
+});
+router.get('/questions/:id', async (req, res) => {
+	try {
+		let question = await Question.getById(req.params.id);
+		if (!question) throw 'Invalid question id';
+		res.send({ question });
+	} catch (err) {
+		res.status(400).send();
 	}
 });
 

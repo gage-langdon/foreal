@@ -21,10 +21,10 @@ export default function userReducer(state = initialState, action) {
 			}
 		case Types.LOG_OUT:
 			localStorage.removeItem('user');
-			return { ...state, user: {}, isLoggedIn: false };
+			return { ...initialState, user: {}, isLoggedIn: false, questions: [], responses: [] };
 		case Types.SET_SIGNIN_ERROR:
 			return { ...state, signInError: action.payload };
-		case Types.UPDATE_QUESTION:
+		case Types.UPDATE_QUESTIONS:
 			return { ...state, questions: action.payload };
 		default:
 			return state;
