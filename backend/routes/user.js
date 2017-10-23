@@ -16,7 +16,7 @@ router.get('/questions/:id', async (req, res) => {
 	try {
 		let question = await Question.getById(req.params.id);
 		if (!question) throw 'Invalid question id';
-		question.user = undefined;
+		//question.user = undefined;
 		let responses = await Response.getByQuestion(req.params.id);
 		res.send({ question, responses });
 	} catch (err) {

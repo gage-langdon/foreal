@@ -20,7 +20,10 @@ module.exports = {
 	},
 	getById: async id => {
 		if (!id) throw 'no id';
-		return await Question.findById(id).populate('user');
+		let question = await Question.findById(id).populate('user');
+		let { _id, firstName, lastName } = question.user;
+		question.user = { _id, firstName, lastName };
+		return question;
 	},
 	getByUser: userID => {
 		if (!userID) throw 'no user id';

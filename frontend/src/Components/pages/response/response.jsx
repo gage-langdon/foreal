@@ -18,6 +18,7 @@ class Response extends Component {
 	async getQuestion() {
 		let { questionId } = this.props.match.params;
 		let question = await this.props.GetQuestion(questionId);
+		console.log('question', question);
 		this.setState({ question });
 	}
 	render() {
@@ -38,9 +39,28 @@ class Response extends Component {
 						>
 							{question ? (
 								<div className="container">
-									<div className="row">
-										<div className="col-12 text-center">{question.text}</div>
-										<div className="col-12 pt-5 text-center">response component here</div>
+									<div className="row justify-content-center">
+										<div className="col-12 text-center">
+											<h2>{`${question.user.firstName} ${question.user.lastName} wants to know:`}</h2>
+										</div>
+										<div className="col-12 text-center">
+											<h1 className="pt-4">{question.text}</h1>
+										</div>
+										<div className="col-6 pt-5 text-center">
+											<form>
+												<div className="input-group">
+													<input type="text" className="form-control" placeholder="" />
+													<div className="input-group-btn">
+														<button type="submit" className="btn btn-secondary">
+															Reply
+														</button>
+													</div>
+												</div>
+											</form>
+										</div>
+										<div className="col-12 pt-5 text-center">
+											{`Respond honestly. ${question.user.firstName} wont know who replied`}
+										</div>
 									</div>
 								</div>
 							) : (
