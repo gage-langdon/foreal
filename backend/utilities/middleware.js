@@ -4,7 +4,7 @@ module.exports = {
 	userRequired: async (req, res, next) => {
 		try {
 			let token = req.headers['authorization'];
-			if (!token) throw 'No token provided';
+			if (!token) throw 'Not logged in';
 
 			let userData = await tokenUtil.verify(token);
 			req.userData = userData;

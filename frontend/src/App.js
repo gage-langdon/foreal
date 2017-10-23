@@ -9,7 +9,6 @@ class App extends Component {
 			<div style={{ overflowX: 'hidden' }}>
 				<Navbar />
 				<Routes />
-				<Footer />
 			</div>
 		);
 	}

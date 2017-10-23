@@ -42,7 +42,7 @@ class Home extends Component {
 		}, 1500);
 	}
 	questions() {
-		return this.state.questions.map((item, i) => (
+		return this.state.questions.filter(item => item !== this.state.question).map((item, i) => (
 			<li className="py-1" key={'QUES_' + i} style={{ cursor: 'pointer' }} onClick={() => this.setState({ question: item })}>
 				{item}
 			</li>

@@ -25,8 +25,9 @@ router.get('/questions/:id', async (req, res) => {
 router.post('/questions/create', async (req, res) => {
 	try {
 		let { text } = req.body;
-		let question = await Question.create({ text, userID: req.userData._id });
-		res.send({ question });
+		Question.create({ text, userID: req.userData._id });
+		let questions = await Question.getByUser(req.userData._id);
+		res.send({ questions });
 	} catch (err) {
 		res.status(400).send({ err });
 	}

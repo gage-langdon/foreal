@@ -21,10 +21,16 @@ class NewQuestion extends Component {
 	oninput(fieldName, value) {
 		this.setState({ [fieldName]: value });
 	}
-	onSubmit(e) {
+	async onSubmit(e) {
 		e.preventDefault();
 
 		console.log('submit', this.state.question);
+		try {
+			if (this.state.question) await this.props.CreateQuestion(this.state.question);
+			console.log('good to go');
+		} catch (err) {
+			console.log(err);
+		}
 	}
 	render() {
 		return (
@@ -40,7 +46,7 @@ class NewQuestion extends Component {
 								onChange={({ target }) => this.oninput('question', target.value)}
 							/>
 							<div className="input-group-btn">
-								<button className="btn btn-secondary">Get Answers</button>
+								<button className={`btn  ${this.state.question ? 'btn-primary' : 'btn-secondary disabled'}`}>Get Answers</button>
 							</div>
 						</div>
 					</form>

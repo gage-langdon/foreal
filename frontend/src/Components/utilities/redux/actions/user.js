@@ -16,7 +16,8 @@ export function SignIn({ email, password }) {
 export function SignUp({ email, password, firstName, lastName, notificationOK = true }) {
 	return async (dispatch, getState) => {
 		try {
-			if (!email || !password || !firstName || !lastName) dispatch({ type: Types.LOG_IN, payload: { signUpError: 'Looks like you forgot to enter all the information' } });
+			if (!email || !password || !firstName || !lastName)
+				dispatch({ type: Types.LOG_IN, payload: { signUpError: 'Looks like you forgot to enter all the information' } });
 			else {
 				let user = await API.signup({ email, password, firstName, lastName, notificationOK });
 				dispatch({ type: Types.LOG_IN, payload: user, signUpError: '' });
@@ -32,11 +33,15 @@ export function ClearSignInError() {
 export function SignOut() {
 	return { type: Types.LOG_OUT };
 }
-export function holdQuestion(text) {
-	console.log('hold question', text);
-}
 export function CreateQuestion(text) {
 	return async (dispatch, getState) => {
-		console.log('create question', text);
+		let state = getState().user;
+		if (state.isLoggedIn) {
+			let { token } = state.user;
+			let questions = await API.createQuestion({ text }, token);
+			dispatch({ type: Types.SET_NEW_QUESTION, payload: questions });
+		} else {
+			console.log('error on create question: not logged in');
+		}
 	};
 }

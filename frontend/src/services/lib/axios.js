@@ -2,12 +2,15 @@ import axios from 'axios';
 import Config from '../../config';
 
 const instance = token => {
-	let headers = {};
-	if (token) headers['authorization'] = token ? 'Bearer ' + token : undefined;
-
+	// let headers = {};
+	// console.log('instance', token);
+	// if (token) headers['authorization'] = `Bearer ${token}`;
+	// console.log('headers', headers);
 	var item = axios.create({
 		baseURL: Config.api,
-		headers: headers,
+		headers: {
+			Authorization: token
+		},
 		transformResponse: [
 			function(data) {
 				return data;
