@@ -14,8 +14,17 @@ class Home extends Component {
 
 		this.state = {
 			headlinePeoples: ['friends', 'family', 'coworkers', 'followers', 'fans', 'employees', 'bosses'],
+			questions: [
+				'How can I be a better friend?',
+				'How can I be a better coworker?',
+				'Why did we become distant?',
+				'How did I do in todays presentation?',
+				'What would make my content better?',
+				'How can I make myself more attractive?'
+			],
 			headlinePeopleIndex: 0,
-			isMounted: false
+			isMounted: false,
+			question: ''
 		};
 	}
 	componentDidMount() {
@@ -32,12 +41,28 @@ class Home extends Component {
 			if (this.state.isMounted) this.setState({ headlinePeopleIndex: newIndex }, () => this.loopHeadline());
 		}, 1500);
 	}
+	questions() {
+		return this.state.questions.map((item, i) => (
+			<li className="py-1" key={'QUES_' + i} style={{ cursor: 'pointer' }} onClick={() => this.setState({ question: item })}>
+				{item}
+			</li>
+		));
+	}
 	render() {
 		return (
 			<div className="container-fluid" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
 				<div className="row align-items-center justify-content-center" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
 					<div className="col pt-5 px-5" style={{ minHeight: '100%', position: 'absolute', overflowY: 'hidden' }}>
-						<div className="jumbotron" style={{ minHeight: '80%', minWidth: '95.5%', position: 'absolute', backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
+						<div
+							className="jumbotron"
+							style={{
+								minHeight: '80%',
+								minWidth: '95.5%',
+								position: 'absolute',
+								backgroundColor: '#ffffff',
+								border: 'solid #e6f2ff 1px'
+							}}
+						>
 							<div className="container">
 								<div className="row">
 									<div className="col-12 text-center">
@@ -45,7 +70,12 @@ class Home extends Component {
 										<h2>Get truly anonymous and honest answers</h2>
 									</div>
 									<div className="col-12 pt-5">
-										<NewQuestion />
+										<NewQuestion preLoadedQuestion={this.state.question} />
+									</div>
+								</div>
+								<div className="row justify-content-center pt-5">
+									<div className="col-4">
+										<ul style={{ listStyleType: 'none' }}>{this.questions()}</ul>
 									</div>
 								</div>
 							</div>
