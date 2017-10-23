@@ -5,6 +5,6 @@ export default {
 		return axios.post('/login', { email, password });
 	},
 	signup: ({ email, password, firstName, lastName, notificationOK }) => {
-		return axios.post('/signup', { email, password, firstName, lastName, notificationOK });
+		return axios.post('/sign-up', { email, password, firstName, lastName, notificationOK });
 	}
 };

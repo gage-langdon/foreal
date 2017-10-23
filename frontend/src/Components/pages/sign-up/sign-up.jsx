@@ -10,6 +10,9 @@ class SignUp extends Component {
 	constructor() {
 		super();
 
+		this.oninput = this.oninput.bind(this);
+		this.onSubmit = this.onSubmit.bind(this);
+
 		this.state = {
 			firstName: '',
 			lastName: '',
@@ -17,7 +20,18 @@ class SignUp extends Component {
 			password: ''
 		};
 	}
-
+	oninput(field, value) {
+		this.setState({ [field]: value });
+	}
+	onSubmit(e) {
+		e.preventDefault();
+		let { firstName, lastName, email, password } = this.state;
+		this.props.SignUp({ email, password, firstName, lastName });
+	}
+	isValid() {
+		let { firstName, lastName, email, password } = this.state;
+		return firstName && lastName && email && password;
+	}
 	render() {
 		console.log(this.props);
 		return (
@@ -32,26 +46,51 @@ class SignUp extends Component {
 											<h1>Thank you for signing up!</h1>
 										</div>
 									</div>
-									<form>
+									<form onSubmit={this.onSubmit}>
 										<div className="row justify-content-center mt-4">
 											<div className="col-2 pr-1">
-												<input type="text" placeholder="First Name" className="form-control my-1" />
+												<input
+													type="text"
+													placeholder="First Name"
+													className="form-control my-1"
+													onChange={({ target }) => this.oninput('firstName', target.value)}
+												/>
 											</div>
 											<div className="col-2 pl-0">
-												<input type="text" placeholder="Last Name" className="form-control my-1" />
+												<input
+													type="text"
+													placeholder="Last Name"
+													className="form-control my-1"
+													onChange={({ target }) => this.oninput('lastName', target.value)}
+												/>
 											</div>
 										</div>
 										<div className="row justify-content-center">
 											<div className="col-4 text-center">
-												<input type="email" placeholder="Email" className="form-control my-1" />
-												<input type="password" placeholder="Password" className="form-control my-1" />
+												<input
+													type="email"
+													placeholder="Email"
+													className="form-control my-1"
+													onChange={({ target }) => this.oninput('email', target.value)}
+												/>
+												<input
+													type="password"
+													placeholder="Password"
+													className="form-control my-1"
+													onChange={({ target }) => this.oninput('password', target.value)}
+												/>
 											</div>
 										</div>
 										<div className="row justify-content-center mt-4">
 											<div className="col-4">
-												<button type="submit" className="btn btn-secondary" style={{ width: '100%' }}>
-													Submit
+												<button type="submit" className={`btn btn-secondary ${this.isValid() ? '' : 'disabled'}`} style={{ width: '100%' }}>
+													Get Answers
 												</button>
+											</div>
+										</div>
+										<div className="row justify-content-center mt-4">
+											<div className="col-4 text-center">
+												<span>{this.props.signUpError}</span>
 											</div>
 										</div>
 									</form>
