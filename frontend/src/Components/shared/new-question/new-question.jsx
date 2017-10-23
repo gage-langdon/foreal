@@ -23,11 +23,13 @@ class NewQuestion extends Component {
 	}
 	async onSubmit(e) {
 		e.preventDefault();
-
-		console.log('submit', this.state.question);
 		try {
-			if (this.state.question) await this.props.CreateQuestion(this.state.question);
-			console.log('good to go');
+			if (this.state.question) {
+				let newQuestion = await this.props.CreateQuestion(this.state.question);
+				if (this.props.onNewQuestion) {
+					this.props.onNewQuestion(newQuestion);
+				}
+			}
 		} catch (err) {
 			console.log(err);
 		}

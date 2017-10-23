@@ -12,6 +12,8 @@ class Home extends Component {
 	constructor() {
 		super();
 
+		this.onNewQuestion = this.onNewQuestion.bind(this);
+
 		this.state = {
 			headlinePeoples: ['friends', 'family', 'coworkers', 'followers', 'fans', 'employees', 'bosses'],
 			questions: [
@@ -48,6 +50,9 @@ class Home extends Component {
 			</li>
 		));
 	}
+	onNewQuestion(newQuestion) {
+		this.props.history.push(`/${newQuestion._id}`);
+	}
 	render() {
 		return (
 			<div className="container-fluid" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
@@ -70,7 +75,7 @@ class Home extends Component {
 										<h2>Get truly anonymous and honest answers</h2>
 									</div>
 									<div className="col-12 pt-5">
-										<NewQuestion preLoadedQuestion={this.state.question} />
+										<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} />
 									</div>
 								</div>
 								<div className="row justify-content-center pt-5">

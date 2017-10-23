@@ -38,8 +38,15 @@ export function CreateQuestion(text) {
 		let state = getState().user;
 		if (state.isLoggedIn) {
 			let { token } = state.user;
-			let questions = await API.createQuestion({ text }, token);
+			let { questions } = await API.createQuestion({ text }, token);
 			dispatch({ type: Types.SET_NEW_QUESTION, payload: questions });
+
+			// return newest question
+			if (questions.length < 1) return null;
+			else if (questions.length === 1) return questions[0];
+
+			let sortedQuestions = questions.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
+			return sortedQuestions[0];
 		} else {
 			console.log('error on create question: not logged in');
 		}
