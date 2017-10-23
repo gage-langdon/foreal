@@ -14,17 +14,22 @@ class Home extends Component {
 
 		this.state = {
 			headlinePeoples: ['friends', 'family', 'coworkers', 'followers', 'fans', 'employees', 'bosses'],
-			headlinePeopleIndex: 0
+			headlinePeopleIndex: 0,
+			isMounted: false
 		};
 	}
-	componentWillMount() {
+	componentDidMount() {
+		this.setState({ isMounted: true });
 		this.loopHeadline();
+	}
+	componentWillUnmount() {
+		this.setState({ isMounted: false });
 	}
 	loopHeadline() {
 		let newIndex = 0;
 		if (this.state.headlinePeopleIndex + 1 < this.state.headlinePeoples.length - 1) newIndex = this.state.headlinePeopleIndex + 1;
 		setTimeout(() => {
-			this.setState({ headlinePeopleIndex: newIndex }, () => this.loopHeadline());
+			if (this.state.isMounted) this.setState({ headlinePeopleIndex: newIndex }, () => this.loopHeadline());
 		}, 1500);
 	}
 	render() {

@@ -22,6 +22,8 @@ export default function userReducer(state = initialState, action) {
 		case Types.LOG_OUT:
 			localStorage.removeItem('user');
 			return { ...state, user: {}, isLoggedIn: false };
+		case Types.SET_SIGNIN_ERROR:
+			return { ...state, signInError: action.payload };
 		default:
 			return state;
 	}

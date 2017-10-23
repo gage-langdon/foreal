@@ -26,6 +26,9 @@ export function SignUp({ email, password, firstName, lastName, notificationOK = 
 		}
 	};
 }
+export function ClearSignInError() {
+	return { type: Types.SET_SIGNIN_ERROR, payload: '' };
+}
 export function SignOut() {
 	return { type: Types.LOG_OUT };
 }

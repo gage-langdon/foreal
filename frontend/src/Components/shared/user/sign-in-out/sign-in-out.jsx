@@ -12,16 +12,23 @@ class SignInOut extends Component {
 
 		this.onLogin = this.onLogin.bind(this);
 		this.onLogout = this.onLogout.bind(this);
+		this.onSendReset = this.onSendReset.bind(this);
+		this.cancelResetPassword = this.cancelResetPassword.bind(this);
 
 		this.state = {
 			email: '',
-			password: ''
+			password: '',
+			sentReset: false
 		};
 	}
+	componentWillReceiveProps(nextProps) {}
 	onLogin(e) {
 		e.preventDefault();
-		let { email, password } = this.state;
-		this.props.SignIn({ email, password });
+		if (this.isValid()) {
+			let { email, password } = this.state;
+			this.props.SignIn({ email, password });
+			this.setState({ email: '', password: '' });
+		}
 	}
 	onLogout() {
 		this.props.SignOut();
@@ -29,8 +36,45 @@ class SignInOut extends Component {
 	onInput(field, value) {
 		this.setState({ [field]: value });
 	}
+	isValid() {
+		let { email, password } = this.state;
+		return email && password;
+	}
+	onSendReset() {
+		this.setState({ sentReset: true });
+	}
+	cancelResetPassword() {
+		this.setState({ sentReset: false });
+		this.props.ClearSignInError();
+	}
 	render() {
-		if (!this.props.isLoggedIn && !this.props.isLogIn)
+		if (!this.props.isLoggedIn && this.props.signInError) {
+			return (
+				<div className="Row text-right">
+					<div className="col">
+						<span className="align-middle">
+							{!this.state.sentReset ? (
+								<div>
+									<span>
+										Incorrect password, send reset link?{' '}
+										<span className="px-1" onClick={this.onSendReset} style={{ cursor: 'pointer' }}>
+											Yes
+										</span>
+										<span className="px-1" onClick={this.cancelResetPassword} style={{ cursor: 'pointer' }}>
+											No
+										</span>
+									</span>
+								</div>
+							) : (
+								<div style={{ cursor: 'pointer' }}>
+									<span onClick={this.cancelResetPassword}>Sent you an email, retry?</span>
+								</div>
+							)}
+						</span>
+					</div>
+				</div>
+			);
+		} else if (!this.props.isLoggedIn && !this.props.isLogIn) {
 			return (
 				<div className="Row text-right">
 					<div className="col">
@@ -49,19 +93,31 @@ class SignInOut extends Component {
 					</div>
 				</div>
 			);
-		else if (!this.props.isLoggedIn && this.props.isLogIn)
+		} else if (!this.props.isLoggedIn && this.props.isLogIn)
 			return (
 				<div>
 					<div className="row hidden-md-down justify-content-end pr-2">
 						<form className="form-inline" onSubmit={this.onLogin}>
 							<div className="col-5 mx-0 px-0">
-								<input type="email" className="form-control" onChange={({ target }) => this.onInput('email', target.value)} placeholder="email" />
+								<input
+									type="email"
+									className="form-control"
+									onChange={({ target }) => this.onInput('email', target.value)}
+									placeholder="email"
+									value={this.state.email}
+								/>
 							</div>
 							<div className="col-5 px-1">
-								<input type="password" className="form-control" onChange={({ target }) => this.onInput('password', target.value)} placeholder="password" />
+								<input
+									type="password"
+									className="form-control"
+									onChange={({ target }) => this.onInput('password', target.value)}
+									placeholder="password"
+									value={this.state.password}
+								/>
 							</div>
 							<div className="col-2 px-2">
-								<button type="submit" className="btn btn-secondary">
+								<button type="submit" className={`btn btn-secondary ${this.isValid() ? '' : 'disabled'}`}>
 									Log In
 								</button>
 							</div>
@@ -83,8 +139,12 @@ class SignInOut extends Component {
 						<span className="align-middle">
 							{this.props.isHover ? (
 								<div>
-									<span className="pr-4">Settings</span>
-									<span onClick={this.onLogout}>Log Out</span>
+									<span className="pr-4" style={{ cursor: 'pointer' }}>
+										Settings
+									</span>
+									<span onClick={this.onLogout} style={{ cursor: 'pointer' }}>
+										Log Out
+									</span>
 								</div>
 							) : (
 								<span>{this.props.user.firstName + ' ' + this.props.user.lastName}</span>
