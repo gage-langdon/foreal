@@ -39,8 +39,10 @@ class SignInOut extends Component {
 								<span className="pr-4" onMouseEnter={this.props.onLogIn}>
 									Log In
 								</span>
-								<Link to="/sign-up">
-									<span onClick={this.onLogout}>Sign Up</span>
+								<Link to="/sign-up" style={{ textDecoration: 'none', color: '#000000' }}>
+									<span style={{ textDecoration: 'none', color: '#000000' }} onClick={this.onLogout}>
+										Sign Up
+									</span>
 								</Link>
 							</div>
 						</span>
