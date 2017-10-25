@@ -65,7 +65,7 @@ class CurrentQuestion extends Component {
 											</button>
 										</div>
 										<div className="col-10 text-center">
-											<h1>Your Currently Asked Question</h1>
+											<h1>{question.text}</h1>
 										</div>
 										<div className="col-1 text-right pr-0">
 											<button className="btn btn-secondary">New</button>
@@ -74,11 +74,7 @@ class CurrentQuestion extends Component {
 											<hr />
 										</div>
 									</div>
-									<div className="row justify-content-center pt-4 pb-2">
-										<div className="col-12 pl-0">
-											<h2 className="">{question.text}</h2>
-										</div>
-									</div>
+
 									<div className="row justify-content-center">{Responses}</div>
 								</div>
 							</div>
