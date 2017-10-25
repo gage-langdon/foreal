@@ -3,6 +3,7 @@ import Types from '../constants/user';
 const initialState = {
 	isLoggedIn: localStorage.getItem('user') ? true : false,
 	user: JSON.parse(localStorage.getItem('user')) || {},
+	currentQuestion: null,
 	questions: [],
 	responses: [],
 	signInError: '',
@@ -26,6 +27,8 @@ export default function userReducer(state = initialState, action) {
 			return { ...state, signInError: action.payload };
 		case Types.UPDATE_QUESTIONS:
 			return { ...state, questions: action.payload };
+		case Types.UPDATE_CURRENT_QUESTION:
+			return { ...state, currentQuestion: action.payload };
 		default:
 			return state;
 	}

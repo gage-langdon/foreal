@@ -18,5 +18,8 @@ export default {
 	},
 	getQuestion: id => {
 		return axios.get(`/questions/${id}`);
+	},
+	getCurrentQuestionLoggedIn: token => {
+		return axios.get('/user/questions/current', null, token);
 	}
 };

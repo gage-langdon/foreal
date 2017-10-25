@@ -6,7 +6,7 @@ import Navbar from './Components/shared/navbar/navbar.jsx';
 class App extends Component {
 	render() {
 		return (
-			<div style={{ overflowX: 'hidden' }}>
+			<div>
 				<Navbar />
 				<Routes />
 			</div>

@@ -64,3 +64,23 @@ export function GetQuestion(id) {
 		}
 	};
 }
+export function GetQuestions() {
+	return async (dispatch, getState) => {
+		let { user } = getState().user;
+		let token = user.token;
+		let { questions } = await API.getQuestions(token);
+		dispatch({ type: Types.UPDATE_QUESTIONS, payload: questions });
+	};
+}
+export function GetCurrentQuestion() {
+	return async (dispatch, getState) => {
+		let state = getState().user;
+		if (state.isLoggedIn) {
+			let token = state.user.token;
+			let { question } = await API.getCurrentQuestionLoggedIn(token);
+			dispatch({ type: Types.UPDATE_CURRENT_QUESTION, payload: question });
+		} else {
+			console.log('not logged in get current question');
+		}
+	};
+}

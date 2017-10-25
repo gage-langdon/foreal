@@ -5,14 +5,16 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../utilities/redux/actions/user';
 
-// components
+// Components
 import NewQuestion from '../../shared/new-question/new-question.jsx';
+import CurrentQuestion from './components/current-question.jsx';
 
 class Home extends Component {
 	constructor() {
 		super();
 
 		this.onNewQuestion = this.onNewQuestion.bind(this);
+		this.onRefreshQuestion = this.onRefreshQuestion.bind(this);
 
 		this.state = {
 			headlinePeoples: ['friends', 'family', 'coworkers', 'followers', 'fans', 'employees', 'bosses'],
@@ -32,6 +34,15 @@ class Home extends Component {
 	componentDidMount() {
 		this.setState({ isMounted: true });
 		this.loopHeadline();
+
+		if (this.props.isLoggedIn) this.initLoggedIn();
+	}
+	componentWillReceiveProps(nextProps) {
+		// check if user logged in
+		if (nextProps.isLoggedIn && !this.props.isLoggedIn) this.initLoggedIn();
+	}
+	initLoggedIn() {
+		this.props.GetCurrentQuestion();
 	}
 	componentWillUnmount() {
 		this.setState({ isMounted: false });
@@ -53,42 +64,40 @@ class Home extends Component {
 	onNewQuestion(newQuestion) {
 		this.props.history.push(`/${newQuestion._id}`);
 	}
+	onRefreshQuestion() {
+		this.props.GetCurrentQuestion();
+	}
 	render() {
-		return (
-			<div className="container-fluid" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
-				<div className="row align-items-center justify-content-center" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
-					<div className="col pt-5 px-5" style={{ minHeight: '100%', position: 'absolute', overflowY: 'hidden' }}>
-						<div
-							className="jumbotron"
-							style={{
-								minHeight: '80%',
-								minWidth: '95.5%',
-								position: 'absolute',
-								backgroundColor: '#ffffff',
-								border: 'solid #e6f2ff 1px'
-							}}
-						>
-							<div className="container">
-								<div className="row">
-									<div className="col-12 text-center">
-										<h1>Ask your {this.state.headlinePeoples[this.state.headlinePeopleIndex]} questions</h1>
-										<h2>Get truly anonymous and honest answers</h2>
+		if (this.props.isLoggedIn && this.props.currentQuestion) {
+			return <CurrentQuestion question={this.props.currentQuestion} onRefresh={this.onRefreshQuestion} />;
+		} else {
+			return (
+				<div className="container-fluid">
+					<div className="row align-items-center justify-content-center">
+						<div className="col pt-5 px-5">
+							<div className="jumbotron" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
+								<div className="container" style={{ height: '70vh' }}>
+									<div className="row">
+										<div className="col-12 text-center">
+											<h1>Ask your {this.state.headlinePeoples[this.state.headlinePeopleIndex]} questions</h1>
+											<h2>Get truly anonymous and honest answers</h2>
+										</div>
+										<div className="col-12 pt-5">
+											<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} />
+										</div>
 									</div>
-									<div className="col-12 pt-5">
-										<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} />
-									</div>
-								</div>
-								<div className="row justify-content-center pt-5">
-									<div className="col-4">
-										<ul style={{ listStyleType: 'none' }}>{this.questions()}</ul>
+									<div className="row justify-content-center pt-5">
+										<div className="col-4">
+											<ul style={{ listStyleType: 'none' }}>{this.questions()}</ul>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		);
+			);
+		}
 	}
 }
 function mapStateToProps({ user }) {

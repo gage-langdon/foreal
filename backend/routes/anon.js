@@ -5,9 +5,12 @@ const Response = require('../models/response');
 router.post('/respond', async (req, res) => {
 	try {
 		let { text, questionID } = req.body;
-		let response = await Response.create({ text, questionID });
+		let question = await Question.getById(questionID);
+		if (!question) throw 'Invalid question';
+		let response = await Response.create({ text, questionID, user: question.user._id });
 		res.send();
 	} catch (err) {
+		console.log(err);
 		res.status(400).send();
 	}
 });
