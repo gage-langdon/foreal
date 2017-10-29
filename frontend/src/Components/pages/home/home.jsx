@@ -8,6 +8,7 @@ import * as actions from '../../utilities/redux/actions/user';
 // Components
 import NewQuestion from '../../shared/new-question/new-question.jsx';
 import Questions from './components/question-list.jsx';
+
 class Home extends Component {
 	constructor() {
 		super();
@@ -41,7 +42,7 @@ class Home extends Component {
 		if (nextProps.isLoggedIn && !this.props.isLoggedIn) this.initLoggedIn();
 	}
 	initLoggedIn() {
-		this.props.GetCurrentQuestion();
+		this.props.GetQuestions();
 	}
 	componentWillUnmount() {
 		this.setState({ isMounted: false });
@@ -64,11 +65,11 @@ class Home extends Component {
 		this.props.history.push(`/${newQuestion._id}`);
 	}
 	onRefreshQuestion() {
-		this.props.GetCurrentQuestion();
+		this.props.GetQuestions();
 	}
 	render() {
-		if (this.props.isLoggedIn && this.props.currentQuestion) {
-			return <Questions data={[this.props.currentQuestion]} onRefresh={this.onRefreshQuestion} />;
+		if (this.props.isLoggedIn && this.props.questions) {
+			return <Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} />;
 		} else {
 			return (
 				<div className="container-fluid">

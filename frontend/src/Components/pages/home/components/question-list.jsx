@@ -18,21 +18,7 @@ class QuestionList extends Component {
 		let { data, onRefresh } = this.props;
 		let Questions = data.map(item => <Question key={item._id} question={item} onRefresh={onRefresh} />);
 
-		return (
-			<div className="container-fluid">
-				<div className="row align-items-center justify-content-center">
-					<div className="col pt-5 px-5">
-						<div className="jumbotron" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
-							<div className="container" style={{ height: '70vh' }}>
-								<div className="row justify-content-center">
-									<div className="col">{Questions}</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
+		return <div className="col pt-5">{Questions}</div>;
 	}
 }
 function mapStateToProps({ user }) {
