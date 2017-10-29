@@ -24,5 +24,8 @@ export default {
 	},
 	submitResponse: (questionID, text) => {
 		return axios.post('/anon/respond', { questionID, text });
+	},
+	deleteQuestion: (questionID, token) => {
+		return axios.post('/user/questions/delete', { questionID }, token);
 	}
 };

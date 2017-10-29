@@ -38,15 +38,7 @@ export function CreateQuestion(text) {
 		let state = getState().user;
 		if (state.isLoggedIn) {
 			let { token } = state.user;
-			let { questions } = await API.createQuestion({ text }, token);
-			dispatch({ type: Types.UPDATE_QUESTIONS, payload: questions });
-
-			// return newest question
-			if (questions.length < 1) return null;
-			else if (questions.length === 1) return questions[0];
-
-			let sortedQuestions = questions.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
-			return sortedQuestions[0];
+			await API.createQuestion({ text }, token);
 		} else {
 			console.log('error on create question: not logged in');
 		}
@@ -69,24 +61,19 @@ export function GetQuestions() {
 		let { user } = getState().user;
 		let token = user.token;
 		let { questions } = await API.getQuestions(token);
-		console.log('questions', questions);
 		dispatch({ type: Types.UPDATE_QUESTIONS, payload: questions });
 	};
 }
-// export function GetCurrentQuestion() {
-// 	return async (dispatch, getState) => {
-// 		let state = getState().user;
-// 		if (state.isLoggedIn) {
-// 			let token = state.user.token;
-// 			let { question } = await API.getCurrentQuestionLoggedIn(token);
-// 			dispatch({ type: Types.UPDATE_CURRENT_QUESTION, payload: question });
-// 		} else {
-// 			console.log('not logged in get current question');
-// 		}
-// 	};
-// }
 export function SubmitResponse(questionID, text) {
 	return async () => {
 		return await API.submitResponse(questionID, text);
+	};
+}
+export function DeleteQuestion(questionID) {
+	return async (dispatch, getState) => {
+		if(!questionID) return;
+		let { user } = getState().user;
+		let token = user.token;
+		return await API.deleteQuestion(questionID, token);
 	};
 }

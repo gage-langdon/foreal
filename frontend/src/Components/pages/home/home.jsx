@@ -28,7 +28,8 @@ class Home extends Component {
 			],
 			headlinePeopleIndex: 0,
 			isMounted: false,
-			question: ''
+			question: '',
+			isLoadingQuestions: false
 		};
 	}
 	componentDidMount() {
@@ -42,7 +43,7 @@ class Home extends Component {
 		if (nextProps.isLoggedIn && !this.props.isLoggedIn) this.initLoggedIn();
 	}
 	initLoggedIn() {
-		this.props.GetQuestions();
+		this.getQuestions();
 	}
 	componentWillUnmount() {
 		this.setState({ isMounted: false });
@@ -65,11 +66,16 @@ class Home extends Component {
 		this.props.history.push(`/${newQuestion._id}`);
 	}
 	onRefreshQuestion() {
-		this.props.GetQuestions();
+		this.getQuestions();
+	}
+	async getQuestions() {
+		this.setState({ isLoadingQuestions: true });
+		await this.props.GetQuestions();
+		this.setState({ isLoadingQuestions: false });
 	}
 	render() {
 		if (this.props.isLoggedIn && this.props.questions) {
-			return <Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} />;
+			return <Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} isLoading={this.state.isLoadingQuestions} />;
 		} else {
 			return (
 				<div className="container-fluid">

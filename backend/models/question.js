@@ -22,11 +22,12 @@ module.exports = {
 		});
 	},
 	getById: async id => {
-		if (!id) throw 'Invalid question id';
+		if (!id) throw 'no id received';
 		const rawQuestion = await Question.findById(id)
 			.populate('user')
 			.lean()
 			.exec();
+		if(!rawQuestion) throw 'invalid question id';
 		const { _id, firstName, lastName } = rawQuestion.user;
 		const question = { ...rawQuestion, user: { _id, firstName, lastName } };
 		return question;
@@ -36,5 +37,12 @@ module.exports = {
 		return Question.find({ user: userID, isClosed: false })
 			.lean()
 			.exec();
+	},
+	delete: async id => {
+		if(!id) throw 'no id received';
+		const foundQuestion = await Question.findById(id);
+		if(!foundQuestion) throw 'invalid question id';
+		foundQuestion.isClosed = true;
+		return foundQuestion.save();
 	}
 };

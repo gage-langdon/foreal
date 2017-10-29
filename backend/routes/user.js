@@ -33,6 +33,15 @@ router.post('/questions/create', async (req, res) => {
 		res.status(400).send({ err });
 	}
 });
+router.post('/questions/delete', async (req, res) => {
+	try {
+		let { questionID } = req.body;
+		await Question.delete(questionID);
+		res.send();
+	} catch (err) {
+		res.status(400).send();
+	}
+});
 router.get('/questions/:id', async (req, res) => {
 	try {
 		const question = await Question.getById(req.params.id);

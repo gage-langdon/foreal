@@ -14,10 +14,13 @@ class Question extends Component {
 
 		this.onRefresh = this.onRefresh.bind(this);
 		this.onIsLoading = this.onIsLoading.bind(this);
+		this.onDelete = this.onDelete.bind(this);
 
 		this.state = {
 			responseHovering: '',
-			isLoading: false
+			isLoading: false,
+			isDeleting: false,
+			isHeaderHover: false
 		};
 	}
 	setResponseHover(responseID) {
@@ -32,6 +35,15 @@ class Question extends Component {
 	}
 	onIsLoading(isLoading) {
 		this.setState({ isLoading });
+	}
+	async onDelete() {
+		try {
+			this.setState({ isDeleting: true });
+			await this.props.DeleteQuestion(this.props.question._id);
+			await this.props.GetQuestions();
+		} catch (err) {
+			this.setState({ isDeleting: false });
+		}
 	}
 	render() {
 		let { question } = this.props;
@@ -52,11 +64,18 @@ class Question extends Component {
 					className="col-12 pt-3 pb-1"
 					style={{ backgroundColor: `${i % 2 > 0 ? '#ffffff' : '#e6f2ff'}` }}
 					onMouseEnter={() => this.setResponseHover(response._id)}
+					onMouseLeave={() => this.setResponseHover('')}
 				>
-					<p className={`my-auto ${!isActive ? 'pb-3' : ''} mr-0`}>
-						<b>{response.text}</b>
-					</p>
-					{isActive ? <p className="pt-3 text-right">{toDate(response.dateCreated)}</p> : null}
+					<div className="row">
+						<div className="col-11">
+							<p className="my-auto mr-0">
+								<b>{response.text}</b>
+							</p>
+						</div>
+						<div className="col-1 pl-0  align-self-end">
+							{isActive ? <span className="py-auto my-auto">{toDate(response.dateCreated)}</span> : null}
+						</div>
+					</div>
 				</div>
 			);
 		});
@@ -65,10 +84,14 @@ class Question extends Component {
 			return (
 				<div className="container-fluid">
 					<div className="row align-items-center justify-content-center">
-						<div className="col pt-1 px-5">
+						<div className="col-12 col-xl-8 pt-1 px-5">
 							<div className="jumbotron py-3" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
-								<div className="container">
-									<div className="row justify-content-center">
+								<div className="container pb-3">
+									<div
+										className="row justify-content-center"
+										onMouseEnter={() => this.setState({ isHeaderHover: true })}
+										onMouseLeave={() => this.setState({ isHeaderHover: false })}
+									>
 										<div className="col-1">
 											{/* <button className="btn btn-secondary" onClick={this.onRefresh}>
 												<i className="material-icons align-middle">
@@ -78,20 +101,34 @@ class Question extends Component {
 										</div>
 										<div className="col-10 text-center">{question ? <h1>{question.text}</h1> : <Loading isLoading={true} />}</div>
 										<div className="col-1 text-right pl-0">
-											{/* <button className="btn btn-secondary" onClick={this.onToggleModal}>
-													Share
-												</button> */}
+											{this.state.isHeaderHover || this.state.isDeleting ? (
+												<div className="row pl-0 align-middle">
+													<div className="col-12 pl-0">
+														<button
+															className={`btn btn-danger ${this.state.isDeleting ? 'disabled' : ''}`}
+															onClick={this.onDelete}
+														>
+															{this.state.isDeleting ? <Loading color="#FFFFFF" /> : 'Delete'}
+														</button>
+													</div>
+													{/* <div className="col pt-3 text-center">
+													{toDate(question.dateCreated)}
+												</div> */}
+												</div>
+											) : null}
 										</div>
 										<div className="col-12 px-0">
 											<hr />
 										</div>
-										<div className="px-0 pt-0 pb-2 text-center">
+									</div>
+									<div className="row justify-content-center">
+										<div className="col px-0 pt-0 pb-2 text-center">
 											<h5>Share this link to get responses: {`foreal.io/${question._id}`}</h5>
 										</div>
 									</div>
 
 									<div className="row justify-content-center">
-										{!Responses || Responses.length < 1 ? <div className="pt-4 pb-2">No Responses Yet :(</div>  : Responses}
+										{!Responses || Responses.length < 1 ? <div className="pt-4">No Responses Yet :(</div> : Responses}
 									</div>
 								</div>
 							</div>

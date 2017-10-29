@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../utilities/redux/actions/user';
 
+// components
+import Loading from '../Loading.jsx';
+
 class NewQuestion extends Component {
 	constructor() {
 		super();
@@ -12,7 +15,8 @@ class NewQuestion extends Component {
 		this.onSubmit = this.onSubmit.bind(this);
 
 		this.state = {
-			question: ''
+			question: '',
+			isLoading: false
 		};
 	}
 	componentWillReceiveProps(nextProps) {
@@ -25,7 +29,11 @@ class NewQuestion extends Component {
 		e.preventDefault();
 		try {
 			if (this.state.question) {
+				this.onLoading(true);
 				let newQuestion = await this.props.CreateQuestion(this.state.question);
+				await this.props.GetQuestions();
+				this.setState({ question: '' });
+				this.onLoading(false);
 				if (this.props.onNewQuestion) {
 					this.props.onNewQuestion(newQuestion);
 				}
@@ -33,6 +41,10 @@ class NewQuestion extends Component {
 		} catch (err) {
 			console.log(err);
 		}
+	}
+	onLoading(isLoading) {
+		if (this.props.onLoading) this.props.onLoading(isLoading);
+		this.setState({ isLoading });
 	}
 	render() {
 		return (
@@ -48,7 +60,9 @@ class NewQuestion extends Component {
 								onChange={({ target }) => this.oninput('question', target.value)}
 							/>
 							<div className="input-group-btn">
-								<button className={`btn  ${this.state.question ? 'btn-primary' : 'btn-secondary disabled'}`}>Get Answers</button>
+								<button className={`btn  ${this.state.question && !this.state.isLoading ? 'btn-primary' : 'btn-secondary disabled'}`}>
+									Get Answers
+								</button>
 							</div>
 						</div>
 					</form>
