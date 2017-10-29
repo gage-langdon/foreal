@@ -7,7 +7,7 @@ router.post('/respond', async (req, res) => {
 		let { text, questionID } = req.body;
 		let question = await Question.getById(questionID);
 		if (!question) throw 'Invalid question';
-		let response = await Response.create({ text, questionID, user: question.user._id });
+		let response = await Response.create({ text, questionID, userID: question.user._id });
 		res.send();
 	} catch (err) {
 		console.log(err);

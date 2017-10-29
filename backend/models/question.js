@@ -17,36 +17,24 @@ module.exports = {
 		return Question.create({
 			user: userID,
 			text,
-			isCurrent: true,
 			isClosed: false,
 			dateCreated: new Date()
 		});
 	},
 	getById: async id => {
 		if (!id) throw 'Invalid question id';
-		let question = await Question.findById(id).populate('user');
-		let { _id, firstName, lastName } = question.user;
-		question.user = { _id, firstName, lastName };
+		const rawQuestion = await Question.findById(id)
+			.populate('user')
+			.lean()
+			.exec();
+		const { _id, firstName, lastName } = rawQuestion.user;
+		const question = { ...rawQuestion, user: { _id, firstName, lastName } };
 		return question;
 	},
 	getByUser: userID => {
 		if (!userID) throw 'Not logged in';
-		return Question.find({ user: userID });
-	},
-	getCurrent: async userID => {
-		let question = await Question.findOne({ user: userID, isCurrent: true })
-			.populate('user')
+		return Question.find({ user: userID, isClosed: false })
 			.lean()
 			.exec();
-		if (question && question.user) {
-			let { _id, firstName, lastName } = question.user;
-			question.user = { _id, firstName, lastName };
-		}
-		return question;
-	},
-	hasCurrent: async userID => {
-		if (!userID) throw 'Not logged in';
-		let questions = await Question.find({ isCurrent: true, user: userID });
-		return questions && questions.length > 0;
 	}
 };

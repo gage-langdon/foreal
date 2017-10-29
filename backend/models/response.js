@@ -11,9 +11,10 @@ const Response = mongoose.model('Response', ResponseSchema);
 
 module.exports = module.exports = {
 	create: ({ text, questionID, userID }) => {
-		if (!text || !questionID) throw 'Missing data';
+		if (!text || !questionID || !userID) throw 'Missing data';
 		return Response.create({
 			text,
+			user: userID,
 			question: questionID,
 			dateCreated: new Date()
 		});
@@ -23,5 +24,10 @@ module.exports = module.exports = {
 	},
 	getByQuestion: questionID => {
 		return Response.find({ question: questionID });
+	},
+	getbyUser: userID => {
+		return Response.find({ user: userID })
+			.lean()
+			.exec();
 	}
 };

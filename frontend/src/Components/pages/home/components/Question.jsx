@@ -39,7 +39,7 @@ class Question extends Component {
 
 		const toDate = dateObj => {
 			let date = new Date(dateObj);
-			return `${date.getMonth().toLocaleString()}/${date.getDate().toLocaleString()}/${date
+			return `${parseInt(date.getMonth().toLocaleString()) + 1}/${date.getDate().toLocaleString()}/${date
 				.getFullYear()
 				.toLocaleString()
 				.substr(3, 2)}`;
@@ -56,7 +56,7 @@ class Question extends Component {
 					<p className={`my-auto ${!isActive ? 'pb-3' : ''} mr-0`}>
 						<b>{response.text}</b>
 					</p>
-					{isActive ? <p className="pt-3 text-right">{toDate(question.dateCreated)}</p> : null}
+					{isActive ? <p className="pt-3 text-right">{toDate(response.dateCreated)}</p> : null}
 				</div>
 			);
 		});
@@ -66,8 +66,8 @@ class Question extends Component {
 				<div className="container-fluid">
 					<div className="row align-items-center justify-content-center">
 						<div className="col pt-1 px-5">
-							<div className="jumbotron pb-0" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
-								<div className="container" >
+							<div className="jumbotron py-3" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
+								<div className="container">
 									<div className="row justify-content-center">
 										<div className="col-1">
 											{/* <button className="btn btn-secondary" onClick={this.onRefresh}>
@@ -90,11 +90,8 @@ class Question extends Component {
 										</div>
 									</div>
 
-									<div className="row justify-content-center">{Responses}</div>
-									<div className="row justify-content-center pt-5 pb-1">
-										<div className="col-12 text-center">
-											{!Responses || Responses.length < 1 ? 'No Responses Yet :(' : ''}
-										</div>
+									<div className="row justify-content-center">
+										{!Responses || Responses.length < 1 ? <div className="pt-4 pb-2">No Responses Yet :(</div>  : Responses}
 									</div>
 								</div>
 							</div>
