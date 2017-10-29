@@ -7,8 +7,7 @@ import * as actions from '../../utilities/redux/actions/user';
 
 // Components
 import NewQuestion from '../../shared/new-question/new-question.jsx';
-import CurrentQuestion from './components/current-question.jsx';
-
+import Questions from './components/question-list.jsx';
 class Home extends Component {
 	constructor() {
 		super();
@@ -69,7 +68,7 @@ class Home extends Component {
 	}
 	render() {
 		if (this.props.isLoggedIn && this.props.currentQuestion) {
-			return <CurrentQuestion question={this.props.currentQuestion} onRefresh={this.onRefreshQuestion} />;
+			return <Questions data={[this.props.currentQuestion]} onRefresh={this.onRefreshQuestion} />;
 		} else {
 			return (
 				<div className="container-fluid">
