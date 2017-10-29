@@ -8,8 +8,14 @@ import * as actions from '../../utilities/redux/actions/user';
 class Response extends Component {
 	constructor() {
 		super();
+
+		this.sendResponse = this.sendResponse.bind(this);
+
 		this.state = {
-			question: null
+			question: null,
+			responseText: '',
+			errorMsg: '',
+			successMsg: ''
 		};
 	}
 	componentWillMount() {
@@ -20,6 +26,18 @@ class Response extends Component {
 		let question = await this.props.GetQuestion(questionId);
 		console.log('question', question);
 		this.setState({ question });
+	}
+	async sendResponse(e) {
+		e.preventDefault();
+		let { question, responseText } = this.state;
+		try {
+			if (!question || !responseText) return;
+			await this.props.SubmitResponse(question._id, responseText);
+			this.setState({ successMsg: 'Thank you for responding!' });
+		} catch (err) {
+			console.log(err);
+			this.setState({ errorMsg: 'Failed to submit response' });
+		}
 	}
 	render() {
 		let { question } = this.state;
@@ -46,21 +64,37 @@ class Response extends Component {
 										<div className="col-12 text-center">
 											<h1 className="pt-4">{question.text}</h1>
 										</div>
-										<div className="col-6 pt-5 text-center">
-											<form>
-												<div className="input-group">
-													<input type="text" className="form-control" placeholder="" />
-													<div className="input-group-btn">
-														<button type="submit" className="btn btn-secondary">
-															Reply
-														</button>
+										{!this.state.successMsg ? (
+											<div className="col-6 pt-5 text-center">
+												<form>
+													<div className="input-group">
+														<input
+															type="text"
+															className="form-control"
+															placeholder=""
+															onChange={({ target }) => this.setState({ responseText: target.value })}
+															value={this.state.responseText}
+														/>
+														<div className="input-group-btn">
+															<button type="submit" className="btn btn-secondary" onClick={this.sendResponse}>
+																Reply
+															</button>
+														</div>
 													</div>
-												</div>
-											</form>
-										</div>
-										<div className="col-12 pt-5 text-center">
-											{`Respond honestly. ${question.user.firstName} wont know who replied`}
-										</div>
+												</form>
+											</div>
+										) : null}
+										<div className="col-12 text-center">{this.state.errorMsg}</div>
+
+										{this.state.successMsg ? (
+											<div className="col-12 pt-5 text-center">
+												<h4>{this.state.successMsg}</h4>
+											</div>
+										) : (
+											<div className="col-12 pt-5 text-center">
+												{`Respond honestly. ${question.user.firstName} won't know who replied`}
+											</div>
+										)}
 									</div>
 								</div>
 							) : (

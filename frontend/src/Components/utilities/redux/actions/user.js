@@ -84,3 +84,8 @@ export function GetCurrentQuestion() {
 		}
 	};
 }
+export function SubmitResponse(questionID, text) {
+	return async () => {
+		return await API.submitResponse(questionID, text);
+	};
+}

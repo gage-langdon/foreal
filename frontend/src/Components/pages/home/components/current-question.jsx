@@ -60,9 +60,9 @@ class CurrentQuestion extends Component {
 								<div className="container" style={{ height: '70vh' }}>
 									<div className="row justify-content-center">
 										<div className="col-1 text-left pl-0">
-											<button className="btn btn-secondary" onClick={this.onRefresh}>
+											{/* <button className="btn btn-secondary" onClick={this.onRefresh}>
 												<i className="material-icons align-middle">refresh</i>
-											</button>
+											</button> */}
 										</div>
 										<div className="col-10 text-center">
 											<h1>{question.text}</h1>
@@ -75,7 +75,13 @@ class CurrentQuestion extends Component {
 										</div>
 									</div>
 
-									<div className="row justify-content-center">{Responses}</div>
+									<div className="row justify-content-center">
+										{Responses && Responses.length > 0 ? (
+											Responses
+										) : (
+											<h4>Share this link to get responses: {`foreal.io/${question._id}`}</h4>
+										)}
+									</div>
 								</div>
 							</div>
 						</div>

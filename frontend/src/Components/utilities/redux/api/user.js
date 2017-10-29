@@ -21,5 +21,8 @@ export default {
 	},
 	getCurrentQuestionLoggedIn: token => {
 		return axios.get('/user/questions/current', null, token);
+	},
+	submitResponse: (questionID, text) => {
+		return axios.post('/anon/respond', { questionID, text });
 	}
 };
