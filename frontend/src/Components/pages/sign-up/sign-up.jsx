@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FitText from 'react-fittext';
 
 // Redux
 import { connect } from 'react-redux';
@@ -52,7 +53,9 @@ class SignUp extends Component {
 				<div className="container pt-4">
 					<div className="row justify-content-center">
 						<div className="col-12 text-center">
-							<h1>Thank you for signing up!</h1>
+							<FitText>
+								<h1>Join Us</h1>
+							</FitText>
 						</div>
 					</div>
 					<form onSubmit={this.onSubmit}>
@@ -90,16 +93,20 @@ class SignUp extends Component {
 								/>
 							</div>
 						</div>
-						<div className="row justify-content-center mt-4">
-							<div className="col-12 col-md-8 col-lg-4">
-								<button type="submit" className={`btn btn-secondary ${this.isValid() ? '' : 'disabled'}`} style={{ width: '100%' }}>
-									Get Answers
-								</button>
+						<div className="row justify-content-center">
+							<div className="col-12 col-md-8 col-lg-4 text-center">
+								<span style={{ color: '#ec6a6a' }}>{this.props.signUpError}</span>
 							</div>
 						</div>
 						<div className="row justify-content-center mt-4">
-							<div className="col-12 col-md-8 col-lg-4 text-center">
-								<span>{this.props.signUpError}</span>
+							<div className="col-12 col-md-8 col-lg-4">
+								<button
+									type="submit"
+									className={`btn ${this.isValid() ? 'btn-primary' : 'btn-secondary disabled'}`}
+									style={{ width: '100%' }}
+								>
+									Get Answers
+								</button>
 							</div>
 						</div>
 					</form>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FitText from 'react-fittext';
 
 // Redux
 import { connect } from 'react-redux';
@@ -77,16 +78,28 @@ class Home extends Component {
 	}
 	render() {
 		if (this.props.isLoggedIn && this.props.questions) {
-			return <Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} isLoading={this.state.isLoadingQuestions} />;
-		} else {
 			return (
-				<div>
+				<div className="container">
 					<div className="row justify-content-center pt-4">
 						<div className="col-12 text-center">
-							<h1>Ask your {this.state.headlinePeoples[this.state.headlinePeopleIndex]}</h1>
-							<h2 className="pt-2">Get truly anonymous and honest answers</h2>
+							<Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} isLoading={this.state.isLoadingQuestions} />
 						</div>
-						<div className="col-12 col-md-8 col-lg-6 col-xl-4 pt-5">
+					</div>
+				</div>
+			);
+		} else {
+			return (
+				<div className="container">
+					<div className="row justify-content-center pt-4">
+						<div className="col-12 text-center">
+							<FitText>
+								<h1>Ask your {this.state.headlinePeoples[this.state.headlinePeopleIndex]}</h1>
+							</FitText>
+							<FitText compressor={2}>
+								<h2 className="pt-2">Get truly anonymous and honest answers</h2>
+							</FitText>
+						</div>
+						<div className="col-12 col-md-8 col-lg-6 pt-5">
 							<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} hasPreload />
 						</div>
 					</div>

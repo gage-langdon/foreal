@@ -48,9 +48,9 @@ class SignInOut extends Component {
 		this.props.ClearSignInError();
 	}
 	render() {
-		const activeStyle = { color: '#e6f2ff' };
+		const { isLoggedIn, isLogIn, signInError, location } = this.props;
 
-		if (!this.props.isLoggedIn && this.props.signInError) {
+		if (!isLoggedIn && signInError && location !== '/sign-in') {
 			return (
 				<div className="Row text-right">
 					<div className="col pr-0">
@@ -76,7 +76,7 @@ class SignInOut extends Component {
 					</div>
 				</div>
 			);
-		} else if (!this.props.isLoggedIn && !this.props.isLogIn) {
+		} else if (!isLoggedIn && !isLogIn) {
 			return (
 				<div className="Row text-right">
 					<div className="col pr-1">
@@ -96,7 +96,7 @@ class SignInOut extends Component {
 					</div>
 				</div>
 			);
-		} else if (!this.props.isLoggedIn && this.props.isLogIn)
+		} else if (!isLoggedIn && isLogIn)
 			return (
 				<form className="form" onSubmit={this.onLogin}>
 					<div className="row justify-content-end pr-4">
