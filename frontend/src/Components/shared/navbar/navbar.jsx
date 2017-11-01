@@ -22,17 +22,17 @@ export default class NavBar extends Component {
 	}
 	render() {
 		return (
-			<div className="container-fluid">
+			<div className="container-fluid mb-2">
 				<div className="row" onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
-					<div className="col pl-4">
-						<nav className="navbar navbar-light pl-4">
+					<div className="col">
+						<nav className="navbar navbar-light">
 							<div className="row pt-2">
-								<div className="col">
+								<div className="col pl-0">
 									<Link to="/">
 										<span className="navbar-brand">Foreal.io</span>
 									</Link>
 								</div>
-								<div className="col pr-4 pt-2">
+								<div className="col pr-0 pt-2">
 									<SignInOut isHover={this.state.isHover} isLogIn={this.state.isLogIn} onLogIn={this.onLogIn} />
 								</div>
 							</div>

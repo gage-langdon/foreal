@@ -49,7 +49,7 @@ class NewQuestion extends Component {
 	render() {
 		return (
 			<div className="row justify-content-center">
-				<div className="col-5 text-center">
+				<div className="col text-center hidden-md-down">
 					<form onSubmit={this.onSubmit}>
 						<div className="input-group">
 							<input
@@ -65,6 +65,24 @@ class NewQuestion extends Component {
 								</button>
 							</div>
 						</div>
+					</form>
+				</div>
+				<div className="col text-center hidden-lg-up">
+					<form onSubmit={this.onSubmit}>
+						<input
+							type="text"
+							className="form-control"
+							placeholder="Enter a question..."
+							value={this.state.question}
+							onChange={({ target }) => this.oninput('question', target.value)}
+						/>
+						<button
+							className={`mt-2 btn btn-block ${this.state.question && !this.state.isLoading
+								? 'btn-primary'
+								: 'btn-secondary disabled'}`}
+						>
+							Get Answers
+						</button>
 					</form>
 				</div>
 			</div>

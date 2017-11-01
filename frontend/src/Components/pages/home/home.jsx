@@ -23,8 +23,7 @@ class Home extends Component {
 				'How can I be a better coworker?',
 				'Why did we become distant?',
 				'How did I do in todays presentation?',
-				'What would make my content better?',
-				'How can I make myself more attractive?'
+				'What would make my content better?'
 			],
 			headlinePeopleIndex: 0,
 			isMounted: false,
@@ -78,27 +77,20 @@ class Home extends Component {
 			return <Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} isLoading={this.state.isLoadingQuestions} />;
 		} else {
 			return (
-				<div className="container-fluid">
-					<div className="row align-items-center justify-content-center">
-						<div className="col pt-5 px-5">
-							<div className="jumbotron" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
-								<div className="container" style={{ height: '70vh' }}>
-									<div className="row">
-										<div className="col-12 text-center">
-											<h1>Ask your {this.state.headlinePeoples[this.state.headlinePeopleIndex]} questions</h1>
-											<h2>Get truly anonymous and honest answers</h2>
-										</div>
-										<div className="col-12 pt-5">
-											<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} />
-										</div>
-									</div>
-									<div className="row justify-content-center pt-5">
-										<div className="col-4">
-											<ul style={{ listStyleType: 'none' }}>{this.questions()}</ul>
-										</div>
-									</div>
-								</div>
-							</div>
+				<div>
+					<div className="row justify-content-center pt-4">
+						<div className="col-12 text-center">
+							<h1>Ask your {this.state.headlinePeoples[this.state.headlinePeopleIndex]}</h1>
+							<h2 className="pt-2">Get truly anonymous and honest answers</h2>
+						</div>
+						<div className="col-12 col-md-8 col-lg-6 col-xl-4 pt-5">
+							<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} />
+						</div>
+					</div>
+					<div className="row justify-content-center pt-5">
+						<div className="col-md-3 col-lg-2 col-xl-1" />
+						<div className="col-12 col-md-8 col-lg-6 col-xl-4">
+							<ul style={{ listStyleType: 'none' }}>{this.questions()}</ul>
 						</div>
 					</div>
 				</div>

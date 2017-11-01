@@ -5,6 +5,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actions from '../../utilities/redux/actions/user';
 
+// Components
+import NewQuestion from '../../shared/new-question/new-question.jsx';
+
 class Response extends Component {
 	constructor() {
 		super();
@@ -86,15 +89,9 @@ class Response extends Component {
 										) : null}
 										<div className="col-12 text-center">{this.state.errorMsg}</div>
 
-										{this.state.successMsg ? (
-											<div className="col-12 pt-5 text-center">
-												<h4>{this.state.successMsg}</h4>
-											</div>
-										) : (
-											<div className="col-12 pt-5 text-center">
-												{`Respond honestly. ${question.user.firstName} won't know who replied`}
-											</div>
-										)}
+										<div className="col-12 pt-5 text-center">
+											{`Respond honestly. ${question.user.firstName} won't know who replied`}
+										</div>
 									</div>
 								</div>
 							) : (

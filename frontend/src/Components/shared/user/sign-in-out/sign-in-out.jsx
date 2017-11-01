@@ -51,16 +51,16 @@ class SignInOut extends Component {
 		if (!this.props.isLoggedIn && this.props.signInError) {
 			return (
 				<div className="Row text-right">
-					<div className="col">
+					<div className="col pr-0">
 						<span className="align-middle">
 							{!this.state.sentReset ? (
 								<div>
-									<span>
+									<span style={{ color: '#ec6a6a' }}>
 										Incorrect password, send reset link?{' '}
-										<span className="px-1" onClick={this.onSendReset} style={{ cursor: 'pointer' }}>
+										<span className="px-2" onClick={this.onSendReset} style={{ cursor: 'pointer' }}>
 											Yes
 										</span>
-										<span className="px-1" onClick={this.cancelResetPassword} style={{ cursor: 'pointer' }}>
+										<span className="pl-2 pr-0" onClick={this.cancelResetPassword} style={{ cursor: 'pointer' }}>
 											No
 										</span>
 									</span>
@@ -77,7 +77,7 @@ class SignInOut extends Component {
 		} else if (!this.props.isLoggedIn && !this.props.isLogIn) {
 			return (
 				<div className="Row text-right">
-					<div className="col">
+					<div className="col pr-1">
 						<span className="align-middle">
 							<div>
 								<span className="pr-4" onMouseEnter={this.props.onLogIn}>
@@ -85,7 +85,7 @@ class SignInOut extends Component {
 								</span>
 								<Link to="/sign-up" style={{ textDecoration: 'none', color: '#000000' }}>
 									<span style={{ textDecoration: 'none', color: '#000000' }} onClick={this.onLogout}>
-										Sign Up
+										Join
 									</span>
 								</Link>
 							</div>
@@ -95,33 +95,31 @@ class SignInOut extends Component {
 			);
 		} else if (!this.props.isLoggedIn && this.props.isLogIn)
 			return (
-				<div>
-					<div className="row hidden-md-down justify-content-end pr-2">
-						<form className="form-inline" onSubmit={this.onLogin}>
-							<div className="col-5 mx-0 px-0">
-								<input
-									type="email"
-									className="form-control"
-									onChange={({ target }) => this.onInput('email', target.value)}
-									placeholder="email"
-									value={this.state.email}
-								/>
-							</div>
-							<div className="col-5 px-1">
-								<input
-									type="password"
-									className="form-control"
-									onChange={({ target }) => this.onInput('password', target.value)}
-									placeholder="password"
-									value={this.state.password}
-								/>
-							</div>
-							<div className="col-2 px-2">
-								<button type="submit" className={`btn btn-secondary ${this.isValid() ? '' : 'disabled'}`}>
-									Log In
-								</button>
-							</div>
-						</form>
+				<form className="form" onSubmit={this.onLogin}>
+					<div className="row hidden-md-down justify-content-end pr-4">
+						<div className="col-5 mx-0 px-0">
+							<input
+								type="email"
+								className="form-control"
+								onChange={({ target }) => this.onInput('email', target.value)}
+								placeholder="email"
+								value={this.state.email}
+							/>
+						</div>
+						<div className="col-5 px-1">
+							<input
+								type="password"
+								className="form-control"
+								onChange={({ target }) => this.onInput('password', target.value)}
+								placeholder="password"
+								value={this.state.password}
+							/>
+						</div>
+						<div className="col-1 pl-0">
+							<button type="submit" className={`btn btn-secondary ${this.isValid() ? '' : 'disabled'}`}>
+								Log In
+							</button>
+						</div>
 					</div>
 					<div className="Row hidden-lg-up justify-content-end">
 						<div className="col text-right pr-0">
@@ -130,12 +128,12 @@ class SignInOut extends Component {
 							</Link>
 						</div>
 					</div>
-				</div>
+				</form>
 			);
 		else
 			return (
 				<div className="Row text-right">
-					<div className="col">
+					<div className="col pr-0">
 						<span className="align-middle">
 							{this.props.isHover ? (
 								<div>
