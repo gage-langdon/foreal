@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 // Redux
 import { connect } from 'react-redux';
@@ -48,6 +48,8 @@ class SignInOut extends Component {
 		this.props.ClearSignInError();
 	}
 	render() {
+		const activeStyle = { color: '#e6f2ff' };
+
 		if (!this.props.isLoggedIn && this.props.signInError) {
 			return (
 				<div className="Row text-right">
@@ -56,12 +58,12 @@ class SignInOut extends Component {
 							{!this.state.sentReset ? (
 								<div>
 									<span style={{ color: '#ec6a6a' }}>
-										Incorrect password, send reset link?{' '}
+										{/* Incorrect password, send reset link?{' '}
 										<span className="px-2" onClick={this.onSendReset} style={{ cursor: 'pointer' }}>
 											Yes
-										</span>
+										</span> */}
 										<span className="pl-2 pr-0" onClick={this.cancelResetPassword} style={{ cursor: 'pointer' }}>
-											No
+											{/* No */}Incorrect Password, try again?
 										</span>
 									</span>
 								</div>
@@ -80,14 +82,15 @@ class SignInOut extends Component {
 					<div className="col pr-1">
 						<span className="align-middle">
 							<div>
-								<span className="pr-4" onMouseEnter={this.props.onLogIn}>
+								<span className="pr-4 hidden-md-down" onMouseEnter={this.props.onLogIn}>
 									Log In
 								</span>
-								<Link to="/sign-up" style={{ textDecoration: 'none', color: '#000000' }}>
-									<span style={{ textDecoration: 'none', color: '#000000' }} onClick={this.onLogout}>
-										Join
-									</span>
-								</Link>
+								<NavLink className="hidden-lg-up pr-4" exact to="/sign-in" style={{ textDecoration: 'none', color: '#000000' }}>
+									<span onClick={this.onLogout}>Sign In</span>
+								</NavLink>
+								<NavLink exact to="/sign-up" style={{ textDecoration: 'none', color: '#000000' }}>
+									<span onClick={this.onLogout}>Join</span>
+								</NavLink>
 							</div>
 						</span>
 					</div>
@@ -96,7 +99,7 @@ class SignInOut extends Component {
 		} else if (!this.props.isLoggedIn && this.props.isLogIn)
 			return (
 				<form className="form" onSubmit={this.onLogin}>
-					<div className="row hidden-md-down justify-content-end pr-4">
+					<div className="row justify-content-end pr-4">
 						<div className="col-5 mx-0 px-0">
 							<input
 								type="email"
@@ -121,13 +124,6 @@ class SignInOut extends Component {
 							</button>
 						</div>
 					</div>
-					<div className="Row hidden-lg-up justify-content-end">
-						<div className="col text-right pr-0">
-							<Link to="/sign-in">
-								<span className="align-middle">Sign In</span>
-							</Link>
-						</div>
-					</div>
 				</form>
 			);
 		else
@@ -137,9 +133,9 @@ class SignInOut extends Component {
 						<span className="align-middle">
 							{this.props.isHover ? (
 								<div>
-									<span className="pr-4" style={{ cursor: 'pointer' }}>
+									{/* <span className="pr-4" style={{ cursor: 'pointer' }}>
 										Settings
-									</span>
+									</span> */}
 									<span onClick={this.onLogout} style={{ cursor: 'pointer' }}>
 										Log Out
 									</span>

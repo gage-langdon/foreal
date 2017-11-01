@@ -19,11 +19,14 @@ class Home extends Component {
 		this.state = {
 			headlinePeoples: ['friends', 'family', 'coworkers', 'followers', 'fans', 'employees', 'bosses'],
 			questions: [
+				'What do you think of me?',
 				'How can I be a better friend?',
+				'What is one thing I should stop doing?',
 				'How can I be a better coworker?',
-				'Why did we become distant?',
 				'How did I do in todays presentation?',
-				'What would make my content better?'
+				'What are you scared of?',
+				'What would make my content better?',
+				'What do you struggle with?'
 			],
 			headlinePeopleIndex: 0,
 			isMounted: false,
@@ -56,9 +59,9 @@ class Home extends Component {
 	}
 	questions() {
 		return this.state.questions.filter(item => item !== this.state.question).map((item, i) => (
-			<li className="py-1" key={'QUES_' + i} style={{ cursor: 'pointer' }} onClick={() => this.setState({ question: item })}>
-				{item}
-			</li>
+			<div className="col-12 py-1" key={'QUES_' + i} style={{ cursor: 'pointer' }} onClick={() => this.setState({ question: item })}>
+				<span>{item}</span>
+			</div>
 		));
 	}
 	onNewQuestion(newQuestion) {
@@ -84,15 +87,10 @@ class Home extends Component {
 							<h2 className="pt-2">Get truly anonymous and honest answers</h2>
 						</div>
 						<div className="col-12 col-md-8 col-lg-6 col-xl-4 pt-5">
-							<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} />
+							<NewQuestion preLoadedQuestion={this.state.question} onNewQuestion={this.onNewQuestion} hasPreload />
 						</div>
 					</div>
-					<div className="row justify-content-center pt-5">
-						<div className="col-md-3 col-lg-2 col-xl-1" />
-						<div className="col-12 col-md-8 col-lg-6 col-xl-4">
-							<ul style={{ listStyleType: 'none' }}>{this.questions()}</ul>
-						</div>
-					</div>
+					<div className="row justify-content-center pt-5 text-center">{this.questions()}</div>
 				</div>
 			);
 		}

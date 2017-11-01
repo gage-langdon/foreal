@@ -55,7 +55,7 @@ class NewQuestion extends Component {
 							<input
 								type="text"
 								className="form-control"
-								placeholder="Enter a question..."
+								placeholder={this.props.hasPreload ? 'Enter a question or choose one below...' : 'Enter a question...'}
 								value={this.state.question}
 								onChange={({ target }) => this.oninput('question', target.value)}
 							/>
@@ -71,8 +71,8 @@ class NewQuestion extends Component {
 					<form onSubmit={this.onSubmit}>
 						<input
 							type="text"
-							className="form-control"
-							placeholder="Enter a question..."
+							className="form-control text-center"
+							placeholder={this.props.hasPreload ? 'Enter a question or choose one below...' : 'Enter a question...'}
 							value={this.state.question}
 							onChange={({ target }) => this.oninput('question', target.value)}
 						/>

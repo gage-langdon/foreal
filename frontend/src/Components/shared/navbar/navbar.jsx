@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import SignInOut from '../user/sign-in-out/sign-in-out.jsx';
 
 export default class NavBar extends Component {
@@ -28,9 +28,9 @@ export default class NavBar extends Component {
 						<nav className="navbar navbar-light">
 							<div className="row pt-2">
 								<div className="col pl-0">
-									<Link to="/">
+									<NavLink to="/">
 										<span className="navbar-brand">Foreal.io</span>
-									</Link>
+									</NavLink>
 								</div>
 								<div className="col pr-0 pt-2">
 									<SignInOut isHover={this.state.isHover} isLogIn={this.state.isLogIn} onLogIn={this.onLogIn} />
