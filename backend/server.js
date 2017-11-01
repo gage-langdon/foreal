@@ -14,7 +14,7 @@ const WHITELIST = ['http://localhost:3000'];
 const allowCrossDomain = (req, res, next) => {
 	let origin = req.headers.origin;
 	// if (WHITELIST.indexOf(origin) > -1) {
-	res.setHeader('Access-Control-Allow-Origin', origin);
+	if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
 	// }
 	res.header('Access-Control-Allow-Credentials', 'true');
 	res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
