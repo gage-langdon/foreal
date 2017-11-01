@@ -14,11 +14,13 @@ class SignInOut extends Component {
 		this.onLogout = this.onLogout.bind(this);
 		this.onSendReset = this.onSendReset.bind(this);
 		this.cancelResetPassword = this.cancelResetPassword.bind(this);
+		this.toggleLogout = this.toggleLogout.bind(this);
 
 		this.state = {
 			email: '',
 			password: '',
-			sentReset: false
+			sentReset: false,
+			isLogOut: false
 		};
 	}
 	componentWillReceiveProps(nextProps) {}
@@ -46,6 +48,9 @@ class SignInOut extends Component {
 	cancelResetPassword() {
 		this.setState({ sentReset: false });
 		this.props.ClearSignInError();
+	}
+	toggleLogout() {
+		this.setState({ isLogOut: !this.state.isLogOut });
 	}
 	render() {
 		const { isLoggedIn, isLogIn, signInError, location } = this.props;
@@ -86,10 +91,10 @@ class SignInOut extends Component {
 									Log In
 								</span>
 								<NavLink className="hidden-lg-up pr-4" exact to="/sign-in" style={{ textDecoration: 'none', color: '#000000' }}>
-									<span onClick={this.onLogout}>Sign In</span>
+									<span>Sign In</span>
 								</NavLink>
 								<NavLink exact to="/sign-up" style={{ textDecoration: 'none', color: '#000000' }}>
-									<span onClick={this.onLogout}>Join</span>
+									<span>Join</span>
 								</NavLink>
 							</div>
 						</span>
@@ -131,7 +136,7 @@ class SignInOut extends Component {
 				<div className="Row text-right">
 					<div className="col pr-0">
 						<span className="align-middle">
-							{this.props.isHover ? (
+							{this.props.isHover || this.state.isLogOut ? (
 								<div>
 									{/* <span className="pr-4" style={{ cursor: 'pointer' }}>
 										Settings
@@ -141,7 +146,7 @@ class SignInOut extends Component {
 									</span>
 								</div>
 							) : (
-								<span>{this.props.user.firstName + ' ' + this.props.user.lastName}</span>
+								<span onClick={this.toggleLogout}>{this.props.user.firstName + ' ' + this.props.user.lastName}</span>
 							)}
 						</span>
 					</div>

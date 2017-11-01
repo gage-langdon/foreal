@@ -7,11 +7,27 @@ class NavBar extends Component {
 		super();
 
 		this.onLogIn = this.onLogIn.bind(this);
+		this.setWrapperRef = this.setWrapperRef.bind(this);
+		this.handleClickOutside = this.handleClickOutside.bind(this);
 
 		this.state = {
 			isHover: false,
 			isLogIn: false
 		};
+	}
+	componentDidMount() {
+		document.addEventListener('mousedown', this.handleClickOutside);
+	}
+	componentWillUnmount() {
+		document.removeEventListener('mousedown', this.handleClickOutside);
+	}
+	setWrapperRef(node) {
+		this.wrapperRef = node;
+	}
+	handleClickOutside(event) {
+		if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+			this.onHover(false);
+		}
 	}
 	onHover(isHover) {
 		if (isHover) this.setState({ isHover });
@@ -22,8 +38,8 @@ class NavBar extends Component {
 	}
 	render() {
 		return (
-			<div className="container-fluid mb-2">
-				<div className="row" onMouseEnter={() => this.onHover(true)} onMouseLeave={() => this.onHover(false)}>
+			<div className="container-fluid pb-5" onMouseEnter={() => this.onHover(true)} ref={this.setWrapperRef}>
+				<div className="row">
 					<div className="col">
 						<nav className="navbar navbar-light">
 							<div className="row pt-2">

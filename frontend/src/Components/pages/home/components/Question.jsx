@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import FitText from 'react-fittext';
+import CopyToClipboard from 'copy-to-clipboard';
 
 // Redux
 import { connect } from 'react-redux';
@@ -67,14 +69,12 @@ class Question extends Component {
 					onMouseLeave={() => this.setResponseHover('')}
 				>
 					<div className="row">
-						<div className="col-11">
-							<p className="my-auto mr-0">
-								<b>{response.text}</b>
-							</p>
+						<div className="col-12 text-left">
+							<span>{response.text}</span>
 						</div>
-						<div className="col-1 pl-0  align-self-end">
+						{/* <div className="col-1 pl-0  align-self-end">
 							{isActive ? <span className="py-auto my-auto">{toDate(response.dateCreated)}</span> : null}
-						</div>
+						</div> */}
 					</div>
 				</div>
 			);
@@ -84,32 +84,54 @@ class Question extends Component {
 			return (
 				<div className="container-fluid">
 					<div className="row align-items-center justify-content-center">
-						<div className="col-12 col-xl-8 pt-1 px-5">
-							<div className="jumbotron py-3" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
+						<div className="col-12 px-0 col-xl-8 pt-1">
+							<div
+								className="jumbotron py-3"
+								style={{
+									backgroundColor: '#ffffff',
+									border: 'solid #e6f2ff 1px'
+								}}
+							>
 								<div className="container pb-3">
 									<div
 										className="row justify-content-center"
 										onMouseEnter={() => this.setState({ isHeaderHover: true })}
 										onMouseLeave={() => this.setState({ isHeaderHover: false })}
 									>
-										<div className="col-1">
+										<div className="col-1 pr-0">
 											{/* <button className="btn btn-secondary" onClick={this.onRefresh}>
 												<i className="material-icons align-middle">
 													{this.state.isLoading ? <Loading isLoading={this.state.isLoading} /> : 'refresh'}
 												</i>
 											</button> */}
 										</div>
-										<div className="col-10 text-center">{question ? <h1>{question.text}</h1> : <Loading isLoading={true} />}</div>
+										<div className="col-10 text-center">
+											{question ? (
+												<FitText compressor={1}>
+													<h2>{question.text}</h2>
+												</FitText>
+											) : (
+												<Loading isLoading={true} />
+											)}
+										</div>
 										<div className="col-1 text-right pl-0">
-											{this.state.isHeaderHover || this.state.isDeleting ? (
+											{true || this.state.isHeaderHover || this.state.isDeleting ? (
 												<div className="row pl-0 align-middle">
-													<div className="col-12 pl-0">
-														<button
-															className={`btn btn-danger ${this.state.isDeleting ? 'disabled' : ''}`}
+													<div className="col-12 pr-0">
+														{/* <button
+															className={`btn btn-secondary ${this.state.isDeleting ? 'disabled' : ''}`}
 															onClick={this.onDelete}
-														>
-															{this.state.isDeleting ? <Loading color="#FFFFFF" /> : 'Delete'}
-														</button>
+														> */}
+														<div onClick={this.onDelete}>
+															{this.state.isDeleting ? (
+																<Loading color="red" />
+															) : (
+																<i className="material-icons py-2" style={{ color: 'red', cursor: 'pointer' }}>
+																	delete
+																</i>
+															)}
+														</div>
+														{/* </button> */}
 													</div>
 													{/* <div className="col pt-3 text-center">
 													{toDate(question.dateCreated)}
@@ -123,7 +145,9 @@ class Question extends Component {
 									</div>
 									<div className="row justify-content-center">
 										<div className="col px-0 pt-0 pb-2 text-center">
-											<h5>Share this link to get responses: {`foreal.io/${question._id}`}</h5>
+											<h5>
+												Share this link to get responses: <b>{`foreal.io/${question._id}`}</b>
+											</h5>
 										</div>
 									</div>
 

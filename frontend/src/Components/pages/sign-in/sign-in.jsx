@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import FitText from 'react-fittext';
 
 // Redux
@@ -82,6 +82,13 @@ class SignIn extends Component {
 								>
 									Sign In
 								</button>
+							</div>
+						</div>
+						<div className="row justify-content-center mt-4">
+							<div className="col-12 text-center">
+								<Link to="sign-up">
+									<span>Not a user yet?</span>
+								</Link>
 							</div>
 						</div>
 					</form>

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import FitText from 'react-fittext';
+import { Link } from 'react-router-dom';
 
 // Redux
 import { connect } from 'react-redux';
@@ -6,7 +8,9 @@ import { bindActionCreators } from 'redux';
 import * as actions from '../../utilities/redux/actions/user';
 
 // Components
+import Wrapper from '../../shared/page-wrapper/page-wrapper.jsx';
 import NewQuestion from '../../shared/new-question/new-question.jsx';
+import Loading from '../../shared/Loading.jsx';
 
 class Response extends Component {
 	constructor() {
@@ -18,7 +22,8 @@ class Response extends Component {
 			question: null,
 			responseText: '',
 			errorMsg: '',
-			successMsg: ''
+			successMsg: '',
+			isReplying: false
 		};
 	}
 	componentWillMount() {
@@ -27,7 +32,6 @@ class Response extends Component {
 	async getQuestion() {
 		let { questionId } = this.props.match.params;
 		let question = await this.props.GetQuestion(questionId);
-		console.log('question', question);
 		this.setState({ question });
 	}
 	async sendResponse(e) {
@@ -35,79 +39,82 @@ class Response extends Component {
 		let { question, responseText } = this.state;
 		try {
 			if (!question || !responseText) return;
+			this.setState({ isReplying: true });
 			await this.props.SubmitResponse(question._id, responseText);
-			this.setState({ successMsg: 'Thank you for responding!' });
+			this.setState({ successMsg: 'Thank you for responding!', isReplying: false });
 		} catch (err) {
-			console.log(err);
-			this.setState({ errorMsg: 'Failed to submit response' });
+			this.setState({ errorMsg: 'Failed to submit response, try again?', isReplying: false });
 		}
 	}
 	render() {
 		let { question } = this.state;
-		return (
-			<div className="container-fluid" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
-				<div className="row align-items-center justify-content-center" style={{ minHeight: '100%', minWidth: '100%', position: 'absolute' }}>
-					<div className="col pt-5 px-5" style={{ minHeight: '100%', position: 'absolute', overflowY: 'hidden' }}>
-						<div
-							className="jumbotron"
-							style={{
-								minHeight: '80%',
-								minWidth: '95.5%',
-								position: 'absolute',
-								backgroundColor: '#ffffff',
-								border: 'solid #e6f2ff 1px'
-							}}
-						>
-							{question ? (
-								<div className="container">
-									<div className="row justify-content-center">
-										<div className="col-12 text-center">
-											<h2>{`${question.user.firstName} ${question.user.lastName} wants to know:`}</h2>
-										</div>
-										<div className="col-12 text-center">
-											<h1 className="pt-4">{question.text}</h1>
-										</div>
-										{!this.state.successMsg ? (
-											<div className="col-6 pt-5 text-center">
-												<form>
-													<div className="input-group">
-														<input
-															type="text"
-															className="form-control"
-															placeholder=""
-															onChange={({ target }) => this.setState({ responseText: target.value })}
-															value={this.state.responseText}
-														/>
-														<div className="input-group-btn">
-															<button type="submit" className="btn btn-secondary" onClick={this.sendResponse}>
-																Reply
-															</button>
-														</div>
-													</div>
-												</form>
-											</div>
-										) : null}
-										<div className="col-12 text-center">{this.state.errorMsg}</div>
 
-										<div className="col-12 pt-5 text-center">
-											{`Respond honestly. ${question.user.firstName} won't know who replied`}
-										</div>
-									</div>
-								</div>
-							) : (
-								<div className="container">
-									<div className="row">
-										<div className="col text-center">
-											<span>Loading...</span>
-										</div>
-									</div>
-								</div>
-							)}
+		if (this.state.successMsg) {
+			return (
+				<div className="row">
+					<div className="col-12">
+						<div className="row justify-content-center">
+							<div className="col-12 col-md-6 text-center">
+								<h1>{this.state.successMsg}</h1>
+							</div>
+						</div>
+						<div className="row justify-content-center">
+							<div className="col-12 col-md-6 text-center pt-4">
+								<Link to="/">
+									<button className="btn btn-secondary">
+										<h2>Ask your own question</h2>
+									</button>
+								</Link>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		);
+			);
+		} else if (question)
+			return (
+				<Wrapper>
+					<div className="row justify-content-center pt-4">
+						<div className="col-12 col-md-8 text-center">
+							<h1>{`${question.user.firstName} ${question.user.lastName} wants to know:`}</h1>
+						</div>
+					</div>
+					<div className="row justify-content-center">
+						<div className="col-12 col-md-8 text-center">
+							<h2 className="pt-4">{question.text}</h2>
+						</div>
+					</div>
+					<div className="row justify-content-center pt-4">
+						<div className="col-12 col-md-8 col-lg-6 col-xl-4 pt-5 text-center">
+							<form onSubmit={this.sendResponse}>
+								<div className="input-group">
+									<input
+										type="text"
+										className="form-control"
+										placeholder=""
+										onChange={({ target }) => this.setState({ responseText: target.value })}
+										value={this.state.responseText}
+									/>
+									<div className="input-group-btn">
+										<button type="submit" className={`btn btn-secondary ${this.state.isReplying ? 'disabled' : ''}`}>
+											{this.state.isReplying ? <Loading /> : 'Reply'}
+										</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div className="col-12 text-center">{this.state.errorMsg}</div>
+						<div className="col-12 pt-5 text-center">{`Respond honestly. ${question.user.firstName} won't know who replied`}</div>
+					</div>
+				</Wrapper>
+			);
+		else
+			return (
+				<div className="row justify-content-center">
+					<div className="col-1">
+						<Loading />
+					</div>
+				</div>
+			);
 	}
 }
 function mapStateToProps({ user }) {

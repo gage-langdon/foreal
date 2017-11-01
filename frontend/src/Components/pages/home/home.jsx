@@ -80,7 +80,7 @@ class Home extends Component {
 		if (this.props.isLoggedIn && this.props.questions) {
 			return (
 				<div className="container">
-					<div className="row justify-content-center pt-4">
+					<div className="row justify-content-center">
 						<div className="col-12 text-center">
 							<Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} isLoading={this.state.isLoadingQuestions} />
 						</div>

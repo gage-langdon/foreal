@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // Redux
 import { connect } from 'react-redux';
@@ -16,11 +17,13 @@ class NewQuestion extends Component {
 
 		this.state = {
 			question: '',
-			isLoading: false
+			isLoading: false,
+			isSubmitWithoutLogIn: false
 		};
 	}
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.preLoadedQuestion) this.setState({ question: nextProps.preLoadedQuestion });
+		if (nextProps.isLoggedIn && this.state.isSubmitWithoutLogIn) this.setState({ isSubmitWithoutLogIn: false });
 	}
 	oninput(fieldName, value) {
 		this.setState({ [fieldName]: value });
@@ -29,13 +32,18 @@ class NewQuestion extends Component {
 		e.preventDefault();
 		try {
 			if (this.state.question) {
-				this.onLoading(true);
-				let newQuestion = await this.props.CreateQuestion(this.state.question);
-				await this.props.GetQuestions();
-				this.setState({ question: '' });
-				this.onLoading(false);
-				if (this.props.onNewQuestion) {
-					this.props.onNewQuestion(newQuestion);
+				if (this.props.isLoggedIn) {
+					this.setState({ isSubmitWithoutLogIn: false });
+					this.onLoading(true);
+					let newQuestion = await this.props.CreateQuestion(this.state.question);
+					await this.props.GetQuestions();
+					this.setState({ question: '' });
+					this.onLoading(false);
+					if (this.props.onNewQuestion) {
+						this.props.onNewQuestion(newQuestion);
+					}
+				} else {
+					this.setState({ isSubmitWithoutLogIn: true });
 				}
 			}
 		} catch (err) {
@@ -85,6 +93,13 @@ class NewQuestion extends Component {
 						</button>
 					</form>
 				</div>
+				{this.state.isSubmitWithoutLogIn ? (
+					<div className="col-12 text-center pt-2">
+						<Link to="sign-in" style={{ color: 'red' }}>
+							<span>Please sign in to ask a question</span>
+						</Link>
+					</div>
+				) : null}
 			</div>
 		);
 	}

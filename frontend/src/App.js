@@ -11,9 +11,7 @@ class App extends Component {
 			<div>
 				<Meta />
 				<Navbar />
-				<Wrapper>
-					<Routes />
-				</Wrapper>
+				<Routes />
 			</div>
 		);
 	}
