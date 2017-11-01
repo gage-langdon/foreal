@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const ResponseSchema = new Schema({
 	user: { type: Schema.ObjectId, ref: 'User' },
-	question: { type: Schema.ObjectId, ref: 'Question' },
+	question: { type: String, ref: 'Question' },
 	text: String,
 	dateCreated: Date
 });

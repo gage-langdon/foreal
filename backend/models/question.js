@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const ShortId = require('shortid');
+
 const QuestionSchema = new Schema({
+	_id: { type: String },
 	user: { type: Schema.ObjectId, ref: 'User' },
 	text: String,
 	isCurrent: Boolean,
@@ -15,6 +18,7 @@ module.exports = {
 		if (!text) throw 'Missing question text';
 		if (!userID) throw 'Must be logged in to submit question';
 		return Question.create({
+			_id: ShortId.generate(),
 			user: userID,
 			text,
 			isClosed: false,
@@ -27,7 +31,7 @@ module.exports = {
 			.populate('user')
 			.lean()
 			.exec();
-		if(!rawQuestion) throw 'invalid question id';
+		if (!rawQuestion) throw 'invalid question id';
 		const { _id, firstName, lastName } = rawQuestion.user;
 		const question = { ...rawQuestion, user: { _id, firstName, lastName } };
 		return question;
@@ -39,9 +43,9 @@ module.exports = {
 			.exec();
 	},
 	delete: async id => {
-		if(!id) throw 'no id received';
+		if (!id) throw 'no id received';
 		const foundQuestion = await Question.findById(id);
-		if(!foundQuestion) throw 'invalid question id';
+		if (!foundQuestion) throw 'invalid question id';
 		foundQuestion.isClosed = true;
 		return foundQuestion.save();
 	}

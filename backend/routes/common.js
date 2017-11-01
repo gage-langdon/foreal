@@ -35,6 +35,7 @@ router.get('/questions/:id', async (req, res) => {
 		if (!question) throw 'Invalid question id';
 		res.send({ question });
 	} catch (err) {
+		console.log(err);
 		res.status(400).send();
 	}
 });
