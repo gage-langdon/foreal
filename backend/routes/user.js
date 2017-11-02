@@ -56,4 +56,14 @@ router.get('/questions/:id', async (req, res) => {
 		res.status(400).send();
 	}
 });
+router.get('/purge', async (req, res) => {
+	try {
+		await Question.purge(req.userData._id);
+		await Response.purge(req.userData._id);
+		res.send('success');
+	} catch (err) {
+		console.log(err);
+		res.status(400).send();
+	}
+});
 module.exports = router;

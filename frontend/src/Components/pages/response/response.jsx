@@ -12,6 +12,8 @@ import Wrapper from '../../shared/page-wrapper/page-wrapper.jsx';
 import NewQuestion from '../../shared/new-question/new-question.jsx';
 import Loading from '../../shared/Loading.jsx';
 
+const RESP_LIMIT = 1500;
+
 class Response extends Component {
 	constructor() {
 		super();
@@ -45,6 +47,10 @@ class Response extends Component {
 		} catch (err) {
 			this.setState({ errorMsg: 'Failed to submit response, try again?', isReplying: false });
 		}
+	}
+	onEnterResponseText(responseText) {
+		if (responseText.length > RESP_LIMIT) return;
+		this.setState({ responseText });
 	}
 	render() {
 		let { question } = this.state;
@@ -91,7 +97,7 @@ class Response extends Component {
 										type="text"
 										className="form-control"
 										placeholder=""
-										onChange={({ target }) => this.setState({ responseText: target.value })}
+										onChange={({ target }) => this.onEnterResponseText(target.value)}
 										value={this.state.responseText}
 									/>
 									<div className="input-group-btn">
@@ -101,6 +107,13 @@ class Response extends Component {
 									</div>
 								</div>
 							</form>
+						</div>
+						<div className="col-12">
+							<div className="row justify-content-center">
+								<div className="col-12 col-md-8 col-lg-6 col-xl-4 text-right">
+									{this.state.responseText.length > 1200 ? this.state.responseText.length + '/' + RESP_LIMIT : null}
+								</div>
+							</div>
 						</div>
 						<div className="col-12 text-center">{this.state.errorMsg}</div>
 						<div className="col-12 pt-5 text-center">{`Respond honestly. ${question.user.firstName} won't know who replied`}</div>

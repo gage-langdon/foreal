@@ -29,5 +29,11 @@ module.exports = module.exports = {
 		return Response.find({ user: userID })
 			.lean()
 			.exec();
+	},
+	purge: userID => {
+		if (!userID) throw 'Not logged in';
+		return Response.find({ user: userID })
+			.remove()
+			.exec();
 	}
 };

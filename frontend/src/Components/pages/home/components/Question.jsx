@@ -69,7 +69,7 @@ class Question extends Component {
 					onMouseLeave={() => this.setResponseHover('')}
 				>
 					<div className="row">
-						<div className="col-12 text-left">
+						<div className="col-12 text-left" style={{ wordWrap: 'break-word' }}>
 							<span>{response.text}</span>
 						</div>
 						{/* <div className="col-1 pl-0  align-self-end">
