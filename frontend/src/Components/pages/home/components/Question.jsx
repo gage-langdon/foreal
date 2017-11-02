@@ -126,7 +126,10 @@ class Question extends Component {
 															{this.state.isDeleting ? (
 																<Loading color="red" />
 															) : (
-																<i className="material-icons py-2" style={{ color: 'red', cursor: 'pointer' }}>
+																<i
+																	className="material-icons py-md-1 py-lg-2"
+																	style={{ color: 'red', cursor: 'pointer' }}
+																>
 																	delete
 																</i>
 															)}
