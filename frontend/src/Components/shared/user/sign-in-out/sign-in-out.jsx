@@ -104,7 +104,7 @@ class SignInOut extends Component {
 		} else if (!isLoggedIn && isLogIn)
 			return (
 				<form className="form" onSubmit={this.onLogin}>
-					<div className="row justify-content-end pr-4">
+					<div className="row justify-content-end pr-5">
 						<div className="col-5 mx-0 px-0">
 							<input
 								type="email"
