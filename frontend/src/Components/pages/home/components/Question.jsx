@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import FitText from 'react-fittext';
-import CopyToClipboard from 'copy-to-clipboard';
 
 // Redux
 import { connect } from 'react-redux';
@@ -9,6 +8,7 @@ import * as actions from '../../../utilities/redux/actions/user';
 
 // Components
 import Loading from '../../../shared/Loading.jsx';
+import Share from '../../../shared/share';
 
 class Question extends Component {
 	constructor() {
@@ -139,19 +139,19 @@ class Question extends Component {
 												</div>
 											) : null}
 										</div>
+										{/* <div className="col-12 px-0">
+											<hr />
+										</div> */}
+									</div>
+									<div className="row justify-content-center">
 										<div className="col-12 px-0">
+											<Share title={question.text} path={question._id} description={'Anonymous Answers For Real Questions'} />
+										</div>
+									</div>
+									<div className="row justify-content-center">
+										<div className="col-12">
 											<hr />
 										</div>
-									</div>
-									<div className="row justify-content-center">
-										<div className="col px-0 pt-0 pb-2 text-center">
-											<h5>
-												Share this link to get responses: <b>{`foreal.io/${question._id}`}</b>
-											</h5>
-										</div>
-									</div>
-
-									<div className="row justify-content-center">
 										{!Responses || Responses.length < 1 ? <div className="pt-4">No Responses Yet :(</div> : Responses}
 									</div>
 								</div>

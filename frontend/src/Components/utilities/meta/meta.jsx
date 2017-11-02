@@ -4,6 +4,9 @@ import { Helmet } from 'react-helmet';
 const title = 'Foreal.io';
 const forealUrl = 'www.foreal.io';
 const description = 'Ask questions, get anonymous answers';
+const image = null;
+const imageWidth = null;
+const imageHeight = null;
 
 export default () => (
 	<Helmet>
@@ -33,8 +36,8 @@ export default () => (
 		<meta property="og:type" content={'Website'} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		{/* <meta property="og:image" content={imageUrl || defaults.image} />
-		<meta property="og:image:width" content={imageWidth || defaults.image_width} />
-		<meta property="og:image:height" content={imageHeight || defaults.image_width} /> */}
+		<meta property="og:image" content={image} />
+		<meta property="og:image:width" content={imageWidth} />
+		<meta property="og:image:height" content={imageHeight} />
 	</Helmet>
 );

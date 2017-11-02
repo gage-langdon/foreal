@@ -1,4 +1,5 @@
 import React from 'react';
+import Share from '../share.jsx';
 
 export default ({}) => {
 	let { text, dateCreated } = data;
@@ -22,11 +23,17 @@ export default ({}) => {
 				<div className="col-12 px-0">
 					<hr />
 				</div>
-				<div className="px-0 pt-0 pb-2 text-center">
+				<div className="col-12 px-0 pt-0 pb-2 text-center">
+					test
 					<h5>Share this link to get responses: {`foreal.io/${question._id}`}</h5>
 				</div>
 			</div>
-
+			<div className="row justify-content-center">
+				<div className="col">
+					hi
+					<Share title="test title" description="test description" />
+				</div>
+			</div>
 			<div className="row justify-content-center">{Responses}</div>
 			<div className="row justify-content-center py-2">
 				<div className="col-1">

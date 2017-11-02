@@ -124,7 +124,7 @@ class SignInOut extends Component {
 							/>
 						</div>
 						<div className="col-1 pl-0">
-							<button type="submit" className={`btn btn-secondary ${this.isValid() ? '' : 'disabled'}`}>
+							<button type="submit" className={`btn btn-secondary `}>
 								Log In
 							</button>
 						</div>
