@@ -31,7 +31,7 @@ export default class Share extends Component {
 				<div className="row justify-content-left">
 					<div className="col-4 col-md-3 col-lg-2 col-xl-3 px-0">
 						<div className="row justify-content-left">
-							<div className="col-1 px-0 hidden-md-down" />
+							<div className="col-1 px-0 hidden-sm-down" />
 							<div className="col-1">
 								<FacebookShareButton url={`foreal.io/${path}`} quote={title}>
 									<FacebookIcon size={30} round={true} />
