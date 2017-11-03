@@ -26,7 +26,8 @@ class NewQuestion extends Component {
 		if (nextProps.isLoggedIn && this.state.isSubmitWithoutLogIn) this.setState({ isSubmitWithoutLogIn: false });
 	}
 	oninput(fieldName, value) {
-		this.setState({ [fieldName]: value });
+		let formatted = value.charAt(0).toUpperCase() + value.slice(1);
+		this.setState({ [fieldName]: formatted });
 	}
 	async onSubmit(e) {
 		e.preventDefault();

@@ -48,9 +48,10 @@ class Response extends Component {
 			this.setState({ errorMsg: 'Failed to submit response, try again?', isReplying: false });
 		}
 	}
-	onEnterResponseText(responseText) {
-		if (responseText.length > RESP_LIMIT) return;
-		this.setState({ responseText });
+	onEnterResponseText(text) {
+		if (text.length > RESP_LIMIT) return;
+		const formatted = text.charAt(0).toUpperCase() + text.slice(1);
+		this.setState({ responseText: formatted });
 	}
 	render() {
 		let { question } = this.state;
