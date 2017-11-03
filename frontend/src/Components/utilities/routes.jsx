@@ -6,6 +6,7 @@ import Home from '../pages/home/home.jsx';
 import Response from '../pages/response/response.jsx';
 import SignIn from '../pages/sign-in/sign-in.jsx';
 import SignUp from '../pages/sign-up/sign-up.jsx';
+//import About from '../pages/about/about.jsx';
 
 export default class Routes extends Component {
 	render() {
