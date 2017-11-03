@@ -30,7 +30,6 @@ router.post('/questions/create', async (req, res) => {
 		let questions = await Question.getByUser(req.userData._id);
 		res.send({ questions });
 	} catch (err) {
-		console.log(err);
 		res.status(400).send({ err });
 	}
 });
@@ -52,8 +51,16 @@ router.get('/questions/:id', async (req, res) => {
 		const sortedResponses = responses.sort((a, b) => new Date(b.dateCreated) - new Date(a.dateCreated));
 		res.send({ question, responses: sortedResponses });
 	} catch (err) {
-		console.log(err);
 		res.status(400).send();
 	}
 });
+// router.get('/purge', async (req, res) => {
+// 	try {
+// 		await Question.purge(req.userData._id);
+// 		await Response.purge(req.userData._id);
+// 		res.send('success');
+// 	} catch (err) {
+// 		res.status(400).send();
+// 	}
+// });
 module.exports = router;

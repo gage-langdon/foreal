@@ -12,6 +12,8 @@ import Wrapper from '../../shared/page-wrapper/page-wrapper.jsx';
 import NewQuestion from '../../shared/new-question/new-question.jsx';
 import Loading from '../../shared/Loading.jsx';
 
+const RESP_LIMIT = 1500;
+
 class Response extends Component {
 	constructor() {
 		super();
@@ -46,6 +48,11 @@ class Response extends Component {
 			this.setState({ errorMsg: 'Failed to submit response, try again?', isReplying: false });
 		}
 	}
+	onEnterResponseText(text) {
+		if (text.length > RESP_LIMIT) return;
+		const formatted = text.charAt(0).toUpperCase() + text.slice(1);
+		this.setState({ responseText: formatted });
+	}
 	render() {
 		let { question } = this.state;
 
@@ -72,15 +79,15 @@ class Response extends Component {
 			);
 		} else if (question)
 			return (
-				<Wrapper>
+				<div className="container">
 					<div className="row justify-content-center pt-4">
-						<div className="col-12 col-md-8 text-center">
+						<div className="col-12 text-center">
 							<h1>{`${question.user.firstName} ${question.user.lastName} wants to know:`}</h1>
 						</div>
 					</div>
 					<div className="row justify-content-center">
-						<div className="col-12 col-md-8 text-center">
-							<h2 className="pt-4">{question.text}</h2>
+						<div className="col-12 text-center">
+							<h3 className="pt-4">{question.text}</h3>
 						</div>
 					</div>
 					<div className="row justify-content-center pt-4">
@@ -90,8 +97,8 @@ class Response extends Component {
 									<input
 										type="text"
 										className="form-control"
-										placeholder=""
-										onChange={({ target }) => this.setState({ responseText: target.value })}
+										placeholder="Type your response here..."
+										onChange={({ target }) => this.onEnterResponseText(target.value)}
 										value={this.state.responseText}
 									/>
 									<div className="input-group-btn">
@@ -102,10 +109,17 @@ class Response extends Component {
 								</div>
 							</form>
 						</div>
+						<div className="col-12">
+							<div className="row justify-content-center">
+								<div className="col-12 col-md-8 col-lg-6 col-xl-4 text-right">
+									{this.state.responseText.length > 1200 ? this.state.responseText.length + '/' + RESP_LIMIT : null}
+								</div>
+							</div>
+						</div>
 						<div className="col-12 text-center">{this.state.errorMsg}</div>
 						<div className="col-12 pt-5 text-center">{`Respond honestly. ${question.user.firstName} won't know who replied`}</div>
 					</div>
-				</Wrapper>
+				</div>
 			);
 		else
 			return (

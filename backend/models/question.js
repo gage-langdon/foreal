@@ -48,5 +48,11 @@ module.exports = {
 		if (!foundQuestion) throw 'invalid question id';
 		foundQuestion.isClosed = true;
 		return foundQuestion.save();
+	},
+	purge: userID => {
+		if (!userID) throw 'Not logged in';
+		return Question.find({ user: userID })
+			.remove()
+			.exec();
 	}
 };

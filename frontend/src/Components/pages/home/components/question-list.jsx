@@ -25,17 +25,21 @@ class QuestionList extends Component {
 
 		return (
 			<div className="row justify-content-center">
-				<div className="col-12 text-center">
+				<div className="col-12">
 					<div className="container-fluid">
 						<div className="row align-items-center justify-content-center">
 							<div className="col-12 col-xl-8 pt-1 px-0">
 								<div className="jumbotron py-3" style={{ backgroundColor: '#ffffff', border: 'solid #e6f2ff 1px' }}>
-									<div className="container pb-2">
-										<FitText>
-											<h1>Ask a new question</h1>
-										</FitText>
-										<hr className="" />
-										<NewQuestion onLoading={isLoading => this.setState({ isNewQuestionLoading: isLoading })} />
+									<div className="container ">
+										<div className="row">
+											<div className="col pl-0">
+												<FitText compressor={1.5}>
+													<h1 style={{ fontFamily: 'Roboto, San-Serif' }}>Ask a new question</h1>
+												</FitText>
+												<hr className="" />
+												<NewQuestion onLoading={isLoading => this.setState({ isNewQuestionLoading: isLoading })} />
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>

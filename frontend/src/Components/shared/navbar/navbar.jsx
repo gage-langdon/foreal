@@ -38,8 +38,8 @@ class NavBar extends Component {
 	}
 	render() {
 		return (
-			<div className="container-fluid pb-5" onMouseEnter={() => this.onHover(true)} ref={this.setWrapperRef}>
-				<div className="row">
+			<div className="container-fluid pb-3" onMouseEnter={() => this.onHover(true)} ref={this.setWrapperRef}>
+				<div className="row justify-content-center">
 					<div className="col">
 						<nav className="navbar navbar-light">
 							<div className="row pt-2">

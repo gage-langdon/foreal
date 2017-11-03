@@ -28,9 +28,10 @@ export default class Share extends Component {
 		const { title, description, path } = this.props;
 		try {
 			return (
-				<div className="row justify-content-center">
-					<div className="col-4 col-md-3 col-lg-2 px-0 pr-xl-4">
-						<div className="row justify-content-center">
+				<div className="row justify-content-left">
+					<div className="col-4 col-md-3 col-lg-2 col-xl-3 px-0">
+						<div className="row justify-content-left">
+							<div className="col-1 px-0 hidden-sm-down" />
 							<div className="col-1">
 								<FacebookShareButton url={`foreal.io/${path}`} quote={title}>
 									<FacebookIcon size={30} round={true} />
@@ -57,10 +58,14 @@ export default class Share extends Component {
 							</div>
 						</div>
 					</div>
-					<div className="col-7 col-md-2 px-0">
-						<button className="btn btn-secondary p-1" onClick={() => this.onCopyLink(`foreal.io/${path}`)}>
+					<div className="col px-0 justify-content-end align-items-end">
+						<div
+							className=" p-1 float-right"
+							onClick={() => this.onCopyLink(`foreal.io/${path}`)}
+							style={{ color: 'rgba(0,0,0,.5)', cursor: 'pointer' }}
+						>
 							{this.state.wasCopied ? 'copied to clipboard' : `foreal.io/${path}`}
-						</button>
+						</div>
 					</div>
 				</div>
 			);

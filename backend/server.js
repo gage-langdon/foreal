@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const compression = require('compression');
+app.use(compression());
 const env = require('dotenv').config({ path: './.env' });
 const bodyParser = require('body-parser');
 app.use(bodyParser.json({ limit: '50mb' }));

@@ -8,7 +8,7 @@ import Meta from './Components/utilities/meta/meta.jsx';
 class App extends Component {
 	render() {
 		return (
-			<div>
+			<div style={{ fontFamily: 'Roboto, San-Serif' }}>
 				<Meta />
 				<Navbar />
 				<Routes />

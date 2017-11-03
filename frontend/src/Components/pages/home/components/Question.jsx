@@ -22,6 +22,7 @@ class Question extends Component {
 			responseHovering: '',
 			isLoading: false,
 			isDeleting: false,
+			isDeleteConfirm: false,
 			isHeaderHover: false
 		};
 	}
@@ -63,13 +64,12 @@ class Question extends Component {
 			return (
 				<div
 					key={response._id}
-					className="col-12 pt-3 pb-1"
-					style={{ backgroundColor: `${i % 2 > 0 ? '#ffffff' : '#e6f2ff'}` }}
+					className="col-12 pt-3 pb-1 px-0"
 					onMouseEnter={() => this.setResponseHover(response._id)}
 					onMouseLeave={() => this.setResponseHover('')}
 				>
 					<div className="row">
-						<div className="col-12 text-left">
+						<div className="col-12 text-left pb-1" style={{ wordWrap: 'break-word', fontFamily: 'Droid Serif, Serif' }}>
 							<span>{response.text}</span>
 						</div>
 						{/* <div className="col-1 pl-0  align-self-end">
@@ -92,29 +92,29 @@ class Question extends Component {
 									border: 'solid #e6f2ff 1px'
 								}}
 							>
-								<div className="container pb-3">
+								<div className="container">
 									<div
 										className="row justify-content-center"
 										onMouseEnter={() => this.setState({ isHeaderHover: true })}
 										onMouseLeave={() => this.setState({ isHeaderHover: false })}
 									>
-										<div className="col-1 pr-0">
-											{/* <button className="btn btn-secondary" onClick={this.onRefresh}>
+										{/* <div className="col-1 pr-0"> */}
+										{/* <button className="btn btn-secondary" onClick={this.onRefresh}>
 												<i className="material-icons align-middle">
 													{this.state.isLoading ? <Loading isLoading={this.state.isLoading} /> : 'refresh'}
 												</i>
 											</button> */}
-										</div>
-										<div className="col-10 text-center">
+										{/* </div> */}
+										<div className="col-10 text-left px-0" style={{ fontFamily: 'Roboto, San-Serif' }}>
 											{question ? (
-												<FitText compressor={1}>
+												<FitText compressor={1.5}>
 													<h2>{question.text}</h2>
 												</FitText>
 											) : (
 												<Loading isLoading={true} />
 											)}
 										</div>
-										<div className="col-1 text-right pl-0">
+										<div className="col-2 text-right pl-0">
 											{true || this.state.isHeaderHover || this.state.isDeleting ? (
 												<div className="row pl-0 align-middle">
 													<div className="col-12 pr-0">
@@ -122,18 +122,24 @@ class Question extends Component {
 															className={`btn btn-secondary ${this.state.isDeleting ? 'disabled' : ''}`}
 															onClick={this.onDelete}
 														> */}
-														<div onClick={this.onDelete}>
-															{this.state.isDeleting ? (
+														{this.state.isDeleteConfirm ? (
+															<div className="pt-lg-2" onClick={this.onDelete}>
+																<span style={{ color: 'red', cursor: 'pointer' }}>Delete?</span>
+															</div>
+														) : (
+															<div onClick={() => this.setState({ isDeleteConfirm: true })}>
+																{/* {this.state.isDeleting ? (
 																<Loading color="red" />
-															) : (
+															) : ( */}
 																<i
 																	className="material-icons py-md-1 py-lg-2"
-																	style={{ color: 'red', cursor: 'pointer' }}
+																	style={{ color: 'rgba(0,0,0,.25)', cursor: 'pointer' }}
 																>
 																	delete
 																</i>
-															)}
-														</div>
+																{/* )} */}
+															</div>
+														)}
 														{/* </button> */}
 													</div>
 													{/* <div className="col pt-3 text-center">
@@ -147,15 +153,15 @@ class Question extends Component {
 										</div> */}
 									</div>
 									<div className="row justify-content-center">
-										<div className="col-12 px-0">
+										<div className="col-12 px-1">
 											<Share title={question.text} path={question._id} description={'Anonymous Answers For Real Questions'} />
 										</div>
 									</div>
 									<div className="row justify-content-center">
-										<div className="col-12">
-											<hr />
+										<div className="col-12 px-0">
+											<hr style={{ border: 'solid #e6f2ff 1px' }} />
 										</div>
-										{!Responses || Responses.length < 1 ? <div className="pt-4">No Responses Yet :(</div> : Responses}
+										{!Responses || Responses.length < 1 ? <div className="pt-1">No Responses Yet :(</div> : Responses}
 									</div>
 								</div>
 							</div>
