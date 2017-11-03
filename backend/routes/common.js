@@ -23,6 +23,7 @@ router.post('/sign-up', async (req, res) => {
 		let { email, password, firstName, lastName, notificationOK } = req.body;
 		if (await User.exists({ email })) throw 'User with that email already exists';
 		let user = await User.create({ email, password, firstName, lastName, notificationOK });
+
 		let token = await userToken(user);
 		res.send({ user, token });
 	} catch (err) {
@@ -35,7 +36,6 @@ router.get('/questions/:id', async (req, res) => {
 		if (!question) throw 'Invalid question id';
 		res.send({ question });
 	} catch (err) {
-		console.log(err);
 		res.status(400).send();
 	}
 });

@@ -10,7 +10,6 @@ router.post('/respond', async (req, res) => {
 		let response = await Response.create({ text, questionID, userID: question.user._id });
 		res.send();
 	} catch (err) {
-		console.log(err);
 		res.status(400).send();
 	}
 });
