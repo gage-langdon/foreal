@@ -81,7 +81,7 @@ class Home extends Component {
 			return (
 				<div className="container">
 					<div className="row justify-content-center">
-						<div className="col-12 text-center">
+						<div className="col-12">
 							<Questions data={this.props.questions} onRefresh={this.onRefreshQuestion} isLoading={this.state.isLoadingQuestions} />
 						</div>
 					</div>

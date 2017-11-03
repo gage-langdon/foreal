@@ -12,28 +12,29 @@ const UserSchema = new Schema({
 const User = mongoose.model('User', UserSchema);
 
 module.exports = {
-	create: ({ email, password, firstName, lastName, notificationOK }) => {
+	create: async ({ email, password, firstName, lastName, notificationOK }) => {
 		if (!email || !password || !firstName || !lastName || !notificationOK) throw 'Missing required fields to create user';
 		// TODO: hash password
-		return User.create({
+		let user = await User.create({
 			email: email.toLowerCase(),
 			password,
-			firstName: firstName.toLowerCase(),
-			lastName: lastName.toLowerCase(),
+			firstName: formatName(firstName),
+			lastName: formatName(lastName),
 			notificationOK,
 			dateCreated: new Date()
 		});
+		return clean(user);
 	},
-	getById: id => {
-		return User.findById(id);
+	getById: async id => {
+		let user = await User.findById(id);
+		return clean(foundUser);
 	},
 	login: ({ email, password }) => {
 		if (!email || !password) throw 'Login requires email and password';
 		// TODO: hash password
 		let foundUser = User.findOne({ email, password });
 		if (!foundUser) throw 'Invalid email or password';
-		// remove password
-		return foundUser;
+		return clean(foundUser);
 	},
 	exists: async ({ email }) => {
 		if (!email) throw 'email required';
@@ -41,4 +42,11 @@ module.exports = {
 		if (foundUser) return true;
 		else return false;
 	}
+};
+
+const formatName = name => {
+	return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+};
+const clean = mongoObj => {
+	let userObj = { ...mongoObj.toObject(), password: undefined, email: undefined };
 };

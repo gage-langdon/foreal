@@ -131,7 +131,7 @@ class SignUp extends Component {
 					</div>
 					<div className="row justify-content-center pt-5">
 						<div className="col-12 text-center">
-							<NewQuestion />
+							<Link to="/">Go home</Link>
 						</div>
 					</div>
 				</div>
