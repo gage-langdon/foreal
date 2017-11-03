@@ -8,13 +8,13 @@ router.post('/login', async (req, res) => {
 	try {
 		let { email, password } = req.body;
 		let user = await User.login({ email: email.toLowerCase(), password });
-		user.password = undefined;
 		if (!user) res.status(403).send();
 		else {
 			let token = await userToken(user);
 			res.send({ user, token });
 		}
 	} catch (err) {
+		console.log(err);
 		res.status(400).send({ err });
 	}
 });

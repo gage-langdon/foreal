@@ -23,22 +23,28 @@ module.exports = {
 			notificationOK,
 			dateCreated: new Date()
 		});
-		return clean(user);
+		return user;
 	},
 	getById: async id => {
-		let user = await User.findById(id);
-		return clean(foundUser);
+		let user = await User.findById(id)
+			.lean()
+			.exec();
+		return user;
 	},
 	login: ({ email, password }) => {
 		if (!email || !password) throw 'Login requires email and password';
 		// TODO: hash password
-		let foundUser = User.findOne({ email, password });
+		let foundUser = User.findOne({ email, password })
+			.lean()
+			.exec();
 		if (!foundUser) throw 'Invalid email or password';
-		return clean(foundUser);
+		return foundUser;
 	},
 	exists: async ({ email }) => {
 		if (!email) throw 'email required';
-		let foundUser = await User.findOne({ email: email.toLowerCase() });
+		let foundUser = await User.findOne({ email: email.toLowerCase() })
+			.lean()
+			.exec();
 		if (foundUser) return true;
 		else return false;
 	}
@@ -48,5 +54,5 @@ const formatName = name => {
 	return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 };
 const clean = mongoObj => {
-	let userObj = { ...mongoObj.toObject(), password: undefined, email: undefined };
+	return { ...mongoObj, password: undefined, email: undefined };
 };
