@@ -3,6 +3,7 @@
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
+		"compression": "^1.7.1",
 		"express": "^4.16.2",
 		"react": "^16.0.0",
 		"react-copy-to-clipboard": "^5.0.1",
